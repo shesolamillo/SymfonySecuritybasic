@@ -23,7 +23,7 @@ final class DashboardController extends AbstractController
     ): Response
     {   
         
-        return new Response("Welcome to the dashboard! (Protected Area)");
+       
 
         // ✅ Fetch all products and categories
         $products = $productRepository->findAll();

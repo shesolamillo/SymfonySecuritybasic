@@ -15,4 +15,14 @@ final class LoginController extends AbstractController
             'controller_name' => 'LoginController',
         ]);
     }
+
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(): void
+    {
+        // Symfony will handle the logout automatically.
+        throw new \LogicException('Logout Thank You');
+    }
+
+
+
 }

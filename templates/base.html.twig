@@ -38,8 +38,11 @@
         </ul>
 
         <div class="logout">
-            <button>🚪 Logout</button>
+            <form action="{{ path('app_logout') }}" method="post">
+                <button type="submit">🚪 Logout</button>
+            </form>
         </div>
+
 
 
 

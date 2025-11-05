@@ -22,8 +22,9 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
+
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -71,8 +72,13 @@ class User
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
+
 
     public function setRoles(array $roles): static
     {
@@ -93,8 +99,13 @@ class User
         return $this;
     }
 
+     public function getUserIdentifier(): string
+    {
+        return $this->email; 
+    }
 
-    
+
+
 
 
 

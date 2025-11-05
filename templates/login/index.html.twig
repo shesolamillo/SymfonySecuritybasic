@@ -126,7 +126,7 @@
     <div class="login-right">
         <div class="login-container">
             <h2>Login</h2>
-            <form action="/login" method="post">
+            <form action="{{ path('app_login') }}" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="_username" placeholder="Enter your username" required>

@@ -1,0 +1,21 @@
+<div class="form-card">
+    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data','id': 'product_form_' ~ (form.vars.value.id ?? 'new')}}) }}
+        {% for child in form %}
+            <div class="form-row">
+                {{ form_label(child) }}
+                {{ form_widget(child, {'attr': {'class': 'form-input'}}) }}
+                {{ form_errors(child) }}
+            </div>
+        {% endfor %}
+
+        {% if form.vars.value.image %}
+            <div class="form-row">
+                <label>Current Image</label>
+                <img src="{{ asset('uploads/' ~ form.vars.value.image) }}" class="image-preview" alt="{{ form.vars.value.name }}">
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+</div>
+

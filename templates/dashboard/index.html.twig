@@ -2,549 +2,85 @@
 
 {% block title %}Dashboard{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+{% endblock %}
+
 {% block body %}
-<style>
-body {
-    font-family: nimala bold, nimala bold;
-    background: #5c5c5dff;
-    margin: 0;
-    padding: 0;
-    color: #a1a3a8ff;
-}
-.sidebar {
-    width: 300px;
-    height: 100vh;
-    background: #464545ff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 20px 0;
-    box-shadow: 2px 0 6px rgba(0,0,0,0.05);
-    z-index: 10;
-}
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.4em;
-    font-weight: 700;
-}
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-.sidebar ul li {
-    padding: 14px 22px;
-    cursor: pointer;
-    transition: background 0.2s;
-    font-size: 1.1em; 
-    margin-bottom: 10px;
-}
-.sidebar ul li:hover {
-    background: #f3f4f6;
-    transform: scale(1.05);
-    transition: transform 0.2s;
-}
-.section h3 {
-    font-size: 3.2em;  /* mas dako kaysa default */
-    font-weight: 700;  /* mas bug-at */
-    margin-bottom: 20px;
-    color: #fff; /* optional kung gusto nimo mas contrast sa background */
 
-}
-
-
-.topbar {
-    margin-left: 300px;
-    height: 90px;
-    background: #292a29ff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    margin-top: 15px; /* ibton gamay pa-ubos */
-}
-.search-box input {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-}
-
-.profile {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: url('{{ asset("images/logo.png") }}') center/contain no-repeat;
-    box-shadow: 0 0 8px rgba(0,0,0,0.3); /* shadow */
-    margin-top: 5px; /* para mosibog gamay pa-ilalom */
-    
-
-  
-}
-.main {
-    margin-left: 300px;
-    padding: 100px;
-    box-sizing: border-box;
-    display:flex;
-    color: black;
-    flex-direction: column;
-}
-.cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-}
-.card {
-    flex: 1 1 200px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-    text-align: center;
-    font-weight: 600;
-}
-.section {
-    display: none;
-    margin-bottom: 30px;
-}
-.product-cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-   
-}
-.product-card {
-    flex: 1 1 200px; 
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-    text-align: center;
-    min-width: 200px;
-    box-sizing: border-box;
-    font-weight: 600;
-    text-align: center;
-}
-.product-image {
-    width: 100%;
-    height: 120px;
-    background: #e5e7eb;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: #111827;
-}
-
-.report-card .product-image {
-    height: 120px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: #111827;
-}
-
-.product-actions button:hover {
-    opacity: 0.8;
-}
-
-
-.product-actions button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    margin-right: 5px;
-    transition: opacity 0.2s;
-}
-
-
-.view-details { background: #60a5fa; }
-.update-status { background: #34d399; }
-.cancel-order { background: #f87171; }
-
-
-.report-revenue { background: #d1fae5; }
-.report-sales { background: #fef3c7; }
-.report-top { background: #fee2e2; }
-.report-growth { background: #e0e7ff; }
-
-.main-content {
-    max-width: 1200px; /* keeps content from stretching too far */
-    margin: 0 auto;
-}
-
-</style>
-
-<!-- Sidebar -->
-<div class="sidebar">
-    <h2>Dashboard</h2>
-    <ul>
-        <li onclick="showSection('overview')">🏠 Overview</li>
-        <li onclick="showSection('products')">👕 Products</li>
-        <li onclick="showSection('orders')">📦 Orders</li>
-        <li onclick="showSection('customers')">🧑‍🤝‍🧑 Customers</li>
-        <li onclick="showSection('loyalty')">💎 Loyalty</li>
-        <li onclick="showSection('reports')">📊 Reports</li>
-        <li onclick="showSection('settings')">⚙️ Settings</li>
-    </ul>
-</div>
-
-<!-- Topbar -->
-<div class="topbar">
-    <div class="search-box">
-        <input type="text" placeholder="Search...">
-    </div>
-    <div class="profile"></div>
-</div>
-
-<div class="main">
-<div id="overview" class="section" style="display:block;">
-    <h3>Overview</h3>
-    <div class="cards">
-        <div class="card">Total Products: 12</div>
-        <div class="card">Orders Today: 5</div>
-        <div class="card">Pending Orders: 2</div>
-        <div class="card">Completed Orders: 3</div>
-        <div class="card">Total Customers: 20</div>
-        <div class="card">Revenue Today: $350</div>
-        <div class="card">New Signups: 3</div>
-    </div>
-    <div class="charts" style="display:flex; gap:20px; margin-top:30px;">
-        <!-- Overview Metrics Chart -->
-        <div style="flex:1; min-width:300px; background:#fff; padding:20px; border-radius:12px;">
-            <h4>Overview Metrics</h4>
-            <canvas id="overviewChart"></canvas>
+<div class="main-content">
+    <div id="overview" class="section" style="display:block;">
+        <h3>Overview</h3>
+        <div class="cards">
+            <div class="card">Total Products:<br><br> {{ products|length }}</div>
+            <div class="card">Orders Today:<br><br> 5</div>
+            <div class="card">Pending Orders:<br><br> 2</div>
+            <div class="card">Completed Orders:<br><br> 3</div>
+            <div class="card">Total Customers:<br><br> 20</div>
+            <div class="card">Revenue Today:<br><br> 350</div>
+            <div class="card">New Signups:<br><br> 3</div>
         </div>
 
-        <!-- Earnings Chart -->
-        <div style="flex:1; min-width:300px; background:#fff; padding:20px; border-radius:12px;">
-            <h4>Earnings</h4>
-            <canvas id="earningsChart"></canvas>
-        </div>
-    </div>
-
-
-</div>
-
-    <div id="products" class="section">
-    <h3>Products</h3>
-    <div class="product-cards">
-        <!-- Product 1 -->
-        <div class="product-card">
-            <div class="product-image" style="background:url('images/shirt.png') center/cover no-repeat;"></div>
-            <h4>Shirt</h4>
-            <p>Category: Apparel</p>
-            <p>Price: $25</p>
-            <p>Stock: 100</p>
-            <div class="product-actions">
-                <button style="background:#60a5fa;color:white;">Edit</button>
-                <button style="background:#f87171;color:white;">Delete</button>
+        <div class="charts" style="display:flex; gap:20px; margin-top:30px;">
+            <div style="flex:1; min-width:300px; background:#fff; padding:20px; border-radius:12px;">
+                <h4>Overview Metrics</h4>
+                <canvas id="overviewChart" width="400" height="250"></canvas>
+            </div>
+            <div style="flex:1; min-width:300px; background:#fff; padding:20px; border-radius:12px;">
+                <h4>Earnings</h4>
+                <canvas id="earningsChart" width="400" height="250"></canvas>
             </div>
         </div>
-
-        <!-- Product 2 -->
-        <div class="product-card">
-            <div class="product-image" style="background:url('images/dog-shirt.png') center/cover no-repeat;"></div>
-            <h4>Dog Shirt</h4>
-            <p>Category: Pets</p>
-            <p>Price: P40</p>
-            <p>Stock: 50</p>
-            <div class="product-actions">
-                <button style="background:#60a5fa;color:white;">Edit</button>
-                <button style="background:#f87171;color:white;">Delete</button>
-            </div>
-        </div>
-
-        <!-- Example Product 3 -->
-        <div class="product-card">
-            <div class="product-image" style="background:url('images/tshirt.png') center/cover no-repeat;"></div>
-            <h4>T-shirt</h4>
-            <p>Category: Apparel</p>
-            <p>Price: $20</p>
-            <p>Stock: 30</p>
-            <div class="product-actions">
-                <button style="background:#60a5fa;color:white;">Edit</button>
-                <button style="background:#f87171;color:white;">Delete</button>
-            </div>
-        </div>
-
-        <!-- Add Product Card -->
-        <div class="product-card add-product" style="display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; background:#f3f4f6; border:2px dashed #a1a3a8;">
-            <h4>+ Add Product</h4>
-            <p>Click to add a new product</p>
-        </div>
     </div>
 </div>
-
-    <div id="orders" class="section">
-    <h3>Orders</h3>
-    <div class="product-cards">
-
-        <!-- Order #001 -->
-        <div class="product-card">
-            <div class="product-image">Order #001</div>
-            <h4>Customer: Ludy Q</h4>
-            <p>Product: Shirt</p>
-            <p>Quantity: 2</p>
-            <p>Total: P50</p>
-            <p>Status: <span style="color:orange;font-weight:600;">Pending</span></p>
-            <div class="product-actions">
-                <button class="view-details">View Details</button>
-                <button class="update-status">Mark as Shipped</button>
-                <button class="cancel-order">Cancel/Delete</button>
-            </div>
-        </div>
-
-        <!-- Order #002 -->
-        <div class="product-card">
-            <div class="product-image">Order #002</div>
-            <h4>Customer: Windy</h4>
-            <p>Product: Dog Shirt</p>
-            <p>Quantity: 1</p>
-            <p>Total: P40</p>
-            <p>Status: <span style="color:green;font-weight:600;">Shipped</span></p>
-            <div class="product-actions">
-                <button class="view-details">View Details</button>
-                <button class="update-status">Mark as Completed</button>
-                <button class="cancel-order">Cancel/Delete</button>
-            </div>
-        </div>
-
-        <!-- Order #003 -->
-        <div class="product-card">
-            <div class="product-image">Order #003</div>
-            <h4>Customer: Mark Lee</h4>
-            <p>Product: T-shirt</p>
-            <p>Quantity: 3</p>
-            <p>Total: P500</p>
-            <p>Status: <span style="color:red;font-weight:600;">Cancelled</span></p>
-            <div class="product-actions">
-                <button class="view-details">View Details</button>
-                <button class="update-status">Mark as Shipped</button>
-                <button class="cancel-order">Cancel/Delete</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-
-    
-
-    <div id="customers" class="section">
-    <h3>Customers</h3>
-    <div class="product-cards"> <!-- reuse flex layout -->
-        <div class="product-card">
-            <div class="product-image"></div>
-            <h4>Ludy Q</h4>
-            <p>Email: LudyQ@gmail.com</p>
-            <p>Orders: 2</p>
-            <p>Loyalty Points: 2</p>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <h4>Windy</h4>
-            <p>Email: Windy@gmail.com</p>
-            <p>Orders: 1</p>
-            <p>Loyalty Points: 1</p>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <h4>Mark Lee</h4>
-            <p>Email: mark@example.com</p>
-            <p>Orders: 3</p>
-            <p>Loyalty Points: 3</p>
-        </div>
-    </div>
-</div>
-
-
-    <div id="loyalty" class="section">
-    <h3>Loyalty & Rewards</h3>
-    <div class="product-cards"> <!-- reuse flex layout -->
-        <div class="product-card">
-            <div class="product-image"></div>
-            <h4>John Doe</h4>
-            <p>Points Earned: 500</p>
-            <p>Points Redeemed: 200</p>
-            <p>Available Balance: 300</p>
-            <p>Status: Gold</p>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <h4>Jane Smith</h4>
-            <p>Points Earned: 300</p>
-            <p>Points Redeemed: 100</p>
-            <p>Available Balance: 200</p>
-            <p>Status: Silver</p>
-        </div>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <h4>Mark Lee</h4>
-            <p>Points Earned: 150</p>
-            <p>Points Redeemed: 0</p>
-            <p>Available Balance: 150</p>
-            <p>Status: Regular</p>
-        </div>
-    </div>
-</div>
-
-
-    <div id="reports" class="section">
-    <h3>Reports</h3>
-    <div class="product-cards">
-        <div class="product-card report-card">
-            <div class="product-image report-revenue">Revenue Chart</div>
-            <p>Monthly revenue overview</p>
-        </div>
-        <div class="product-card report-card">
-            <div class="product-image report-sales">Sales Distribution</div>
-            <p>Sales by product categories</p>
-        </div>
-        <div class="product-card report-card">
-            <div class="product-image report-top">Top Products</div>
-            <p>Best-selling products</p>
-        </div>
-        <div class="product-card report-card">
-            <div class="product-image report-growth">Customer Growth</div>
-            <p>New customers per month</p>
-        </div>
-    </div>
-</div>
-
-
-
-    <div id="settings" class="section">
-    <h3>Settings</h3>
-    <div class="product-cards"> <!-- reuse flex layout -->
-        <div class="product-card">
-            <h4>General Settings</h4>
-            <p>Update business info, logo, contact details</p>
-            <button>Update</button>
-        </div>
-        <div class="product-card">
-            <h4>Payment Settings</h4>
-            <p>Configure payment methods</p>
-            <button>Configure</button>
-        </div>
-        <div class="product-card">
-            <h4>Notifications</h4>
-            <p>Email/SMS notifications</p>
-            <label>
-                <input type="checkbox" checked> Enabled
-            </label>
-        </div>
-        <div class="product-card">
-            <h4>User Management</h4>
-            <p>Add or remove admin users</p>
-            <button>Manage Users</button>
-        </div>
-        <div class="product-card">
-            <h4>Theme / Appearance</h4>
-            <p>Switch between Light and Dark mode</p>
-            <label>
-                <input type="checkbox"> Dark Mode
-            </label>
-        </div>
-    </div>
-</div>
-</div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-
-    
-    document.querySelector('.add-product').addEventListener('click', function() {
-        alert('Open form or modal to add a new product'); 
-        // Replace alert with modal opening code when ready
-    });
-   
-
-    
-
-    const ctx = document.getElementById('overviewChart').getContext('2d');
-    const overviewChart = new Chart(ctx, {
-        type: 'bar', // Change to 'line' if you want a line chart
-        data: {
-            labels: ['Total Products', 'Orders Today', 'Pending Orders', 'Completed Orders', 'Total Customers', 'Revenue Today', 'New Signups'],
-            datasets: [{
-                label: 'Metrics Overview',
-                data: [12, 5, 2, 3, 20, 350, 3], // Same numbers as your cards
-                backgroundColor: [
-                    '#4ade80', '#60a5fa', '#facc15', '#f87171', '#34d399', '#818cf8', '#f472b6'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-
-
-
+    const overviewCtx = document.getElementById('overviewChart').getContext('2d');
     const earningsCtx = document.getElementById('earningsChart').getContext('2d');
-    const earningsChart = new Chart(earningsCtx, {
-        type: 'line', // Line chart for earnings over time
-        data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // days of the week
-            datasets: [{
-                label: 'Earnings ($)',
-                data: [100, 150, 120, 200, 180, 250, 300], // example earnings
-                borderColor: '#4ade80',
-                backgroundColor: 'rgba(74, 222, 128, 0.2)',
-                fill: true,
-                tension: 0.4 // smooth curve
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: true },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
 
-
-
-
-    document.querySelector('.add-product').addEventListener('click', function() {
-        alert('Open form or modal to add a new product'); 
-        // Replace alert with modal opening code when ready
-    });
-
-
-
-
-    function showSection(id) {
-        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
+    
+    const overviewChart = new Chart(document.getElementById('overviewChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: ['Total Products', 'Orders Today', 'Pending Orders', 'Completed Orders', 'Total Customers', 'Revenue Today', 'New Signups'],
+        datasets: [{
+            label: 'Metrics Overview',
+            data: [{{ products|length }},5,2,3,20,350,3],
+            backgroundColor: ['#4ade80','#60a5fa','#facc15','#f87171','#34d399','#818cf8','#f472b6']
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
     }
+});
 
-
-
+const earningsChart = new Chart(document.getElementById('earningsChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets:[{
+            label:'Earnings ($)',
+            data:[100,150,120,200,180,250,300],
+            borderColor:'#4ade80',
+            backgroundColor:'rgba(74,222,128,0.2)',
+            fill:true,
+            tension:0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2,
+        plugins: { legend: { display: true } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
 
 </script>
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product{% endblock %}
+
+{% block body %}
+
+
+<div class="product-container">
+    <h1>Product Details</h1>
+
+    <div class="product-card">
+        {% if product.image %}
+            <img src="{{ asset('uploads/' ~ product.image) }}" 
+                alt="{{ product.name }}" 
+                style="max-width:200px;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+
+
+        <div><strong>Id:</strong> {{ product.id }}</div>
+        <div><strong>Name:</strong> {{ product.name }}</div>
+        <div><strong>Description:</strong> {{ product.description }}</div>
+        <div><strong>Price:</strong> {{ product.price }}</div>
+        <div><strong>Created At:</strong> {{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</div>
+    </div>
+
+    <div class="actions">
+        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-edit">Edit</a>
+        {{ include('product/_delete_form.html.twig') }}
+    </div>
+
+    <a href="{{ path('app_product_index') }}" class="btn btn-back">Back to List</a>
+</div>
+{% endblock %}

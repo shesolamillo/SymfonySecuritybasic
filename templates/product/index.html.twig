@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Index{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Product List</h1>
+
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>₱{{ product.price|number_format(2, '.', ',') }}</td>
+                    <td>
+                        {% if product.image %}
+                            <img src="{{ asset('uploads/' ~ product.image) }}" 
+                                alt="{{ product.name }}" 
+                                style="width:60px; border-radius:6px;">
+                        {% else %}
+                            <span>No image</span>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="edit-btn">Edit</a>
+                        {{ include('product/_delete_form.html.twig', {'product': product}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7">No records found</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_product_new') }}" class="new-btn">Create New Product</a>
+    </div>
+</div>
+
+
+{% endblock %}

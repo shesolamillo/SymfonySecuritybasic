@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/category_new.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Create new Category</h1>
+
+    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+        <div class="form-group">
+            {{ form_label(form.category, 'Category') }}
+            {{ form_widget(form.category) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.description, 'Description') }}
+            {{ form_widget(form.description) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.image, 'Category Image') }}
+            {{ form_widget(form.image) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_category_index') }}" class="back-link">Back to list</a>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customer{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customer_show.css') }}">
+{% endblock %}
+
+
+{% block body %}
+    <h1>Customer</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ customer.id }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ customer.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ customer.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ customer.email }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ customer.phone }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ customer.createdAt ? customer.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_customer_index') }}">back to list</a>
+
+    <a href="{{ path('app_customer_edit', {'id': customer.id}) }}">edit</a>
+
+    {{ include('customer/_delete_form.html.twig') }}
+{% endblock %}

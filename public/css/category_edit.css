@@ -1,0 +1,132 @@
+/* ================================
+   EDIT CATEGORY PAGE (Admin)
+   ================================ */
+
+/* Main container */
+.category-edit-container {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Card style */
+.category-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 40px 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+h1 {
+    font-size: 2em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+    border-left: 6px solid #ff6f91;
+    padding-left: 15px;
+}
+
+/* Form fields */
+form div {
+    margin-bottom: 18px;
+}
+
+form label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: #ff6f91;
+    box-shadow: 0 0 8px rgba(255, 111, 145, 0.3);
+}
+
+/* Buttons */
+button, .back-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+button {
+    background: linear-gradient(90deg, #ff6f91, #ff9671);
+    color: white;
+    margin-top: 10px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 111, 145, 0.3);
+}
+
+.back-btn {
+    background: #f1f1f1;
+    color: #333;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.back-btn:hover {
+    background: #e3e3e3;
+    transform: translateY(-2px);
+}
+
+/* Delete form */
+.delete-form button {
+    background: #ef5350;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.delete-form button:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* Centering */
+.category-edit-container .actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-card {
+        padding: 25px;
+    }
+    button, .back-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

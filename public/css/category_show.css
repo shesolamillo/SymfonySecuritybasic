@@ -1,0 +1,181 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f8f9fa;
+    color: #2c3e50;
+}
+
+/* Header */
+.category-header {
+    width: 85%;
+    margin: 30px auto 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+}
+
+.category-header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+.back-btn {
+    background: #7f8c8d;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #95a5a6;
+}
+
+/* Category Info Card */
+.category-card {
+    width: 85%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    margin: 20px auto;
+    padding: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 8px;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table th,
+.info-table td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 1rem;
+}
+
+.info-table th {
+    background: #f9fafc;
+    width: 30%;
+    color: #555;
+    font-weight: 600;
+}
+
+.info-table td {
+    color: #333;
+}
+
+/* Buttons */
+.action-buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.edit-btn {
+    background: #3498db;
+}
+.edit-btn:hover {
+    background: #2980b9;
+}
+
+.add-btn {
+    background: #27ae60;
+}
+.add-btn:hover {
+    background: #219150;
+}
+
+.view-btn {
+    background: #8e44ad;
+}
+.view-btn:hover {
+    background: #71368a;
+}
+
+/* Product Table */
+.products-section {
+    width: 85%;
+    margin: 30px auto;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.products-table th, 
+.products-table td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 1rem;
+}
+
+.products-table th {
+    background: #f9fafc;
+    color: #555;
+    font-weight: 600;
+}
+
+.products-table tr:hover td {
+    background-color: #f9fbff;
+    transition: background 0.2s ease-in-out;
+}
+
+.product-thumb {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-card, .products-section {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .products-table th, .products-table td {
+        font-size: 0.9rem;
+    }
+}

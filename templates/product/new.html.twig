@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add New Product{% endblock %}
+
+{% block body %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/product_new.css') }}">
+{% endblock %}
+
+
+<div class="container">
+    <div class="card">
+        <h1>Add New Product</h1>
+
+        <div class="form-wrapper">
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.price) }} 
+                {{ form_row(form.createdAt) }}
+                {{ form_row(form.image) }}
+
+
+
+                <div class="fs-field">
+                    {{ form_label(form.category, 'Product Category', { 'label_attr': {'class': 'fs-label'} }) }}
+                    {{ form_widget(form.category, { 'attr': {'class': 'fs-input', 'placeholder': 'category'} }) }}
+                    {{ form_errors(form.category) }}
+                </div>
+
+
+                <button type="submit" class="submit-btn">
+                    {{ form.vars.value.id ? 'Update Product' : 'Add Product' }}
+                </button>
+            {{ form_end(form) }}
+        </div>
+
+        <a class="back-link" href="{{ path('app_product_index') }}">← Back to product list</a>
+    </div>
+</div>
+{% endblock %}

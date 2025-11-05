@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Order{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/order_new.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="order-container">
+    <div class="order-card">
+        <div class="header">
+            <h1>Create New Order</h1>
+            <a href="{{ path('app_order_index') }}" class="back-btn">← Back to Orders</a>
+        </div>
+
+        <div class="form-section">
+            {{ include('order/_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

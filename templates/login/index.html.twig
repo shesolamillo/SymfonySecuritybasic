@@ -5,32 +5,66 @@
 {% block body %}
 <style>
     body {
-        font-family: 'Arial', sans-serif;
         margin: 0;
-        background: #5b5c5e3c;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #2c3e50, #4ca1af);
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
     }
 
-    .login-container {
-        width: 350px;
-        padding: 30px;
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    .login-wrapper {
+        display: flex;
+        width: 900px;
+        height: 550px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        overflow: hidden;
+    }
+
+    /* Left side image */
+    .login-left {
+        flex: 1;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        color: #fff;
         text-align: center;
+    }
+
+    .login-left img {
+        width: 80%;
+        border-radius: 50%;
+        z-index: 2;
+    }
+
+    /* Right side form */
+    .login-right {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        background: #f9f9fb;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 320px;
     }
 
     .login-container h2 {
         margin-bottom: 20px;
         color: #111827;
+        text-align: center;
     }
 
     .form-group {
         margin-bottom: 15px;
-        text-align: left;
     }
 
     .form-group label {
@@ -42,7 +76,7 @@
 
     .form-group input {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         border: 1px solid #ddd;
         border-radius: 6px;
         font-size: 14px;
@@ -51,26 +85,28 @@
     .login-btn {
         width: 100%;
         padding: 12px;
-        background: #764ba2;
+        background: #667eea;
         color: white;
         border: none;
         border-radius: 6px;
         font-size: 16px;
         cursor: pointer;
         transition: background 0.3s;
+        margin-top: 10px;
     }
 
     .login-btn:hover {
-        background: #667eea;
+        background: #764ba2;
     }
 
     .signup-link {
         margin-top: 15px;
         font-size: 14px;
+        text-align: center;
     }
 
     .signup-link a {
-        color: #764ba2;
+        color: #667eea;
         text-decoration: none;
         font-weight: bold;
     }
@@ -80,23 +116,34 @@
     }
 </style>
 
-<div class="login-container">
-    <h2>Login</h2>
-    <form action="/login" method="post">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="_username" placeholder="Enter your password" required>
-        </div>
+<div class="login-wrapper">
+    <!-- Left section with image -->
+    <div class="login-left">
+        <img src="{{ asset('images/logo.png') }}" alt="Login Illustration">
+    </div>
 
-        <div class="form-group">
-            <label for= "password">Password</label>
-            <input type="password" id=password" name="_password" placeholder="Enter your password" required>
-        </div>
+    <!-- Right section with form -->
+    <div class="login-right">
+        <div class="login-container">
+            <h2>Login</h2>
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="_username" placeholder="Enter your username" required>
+                </div>
 
-        <button type="submit"class="login-btn">Login</button>
-    </form>
-    <p class="signup-link">Don't have an account?
-    <a href="/register">Sign up</a>
-    </p>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="_password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <p class="signup-link">Don't have an account?
+                <a href="/register">Sign up</a>
+            </p>
+        </div>
+    </div>
 </div>
-{% endblock %}        
+{% endblock %}
+

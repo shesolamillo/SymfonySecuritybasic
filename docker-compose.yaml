@@ -1,0 +1,38 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: smsol_studio_root
+      MYSQL_DATABASE: smsol_studio_db
+      MYSQL_USER: smsol_studio_user
+      MYSQL_PASSWORD: she_12345
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - smsol_studio_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: smsol_studio_user
+      PMA_PASSWORD: she_12345
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - smsol_studio_network
+      
+volumes:
+  mysql_data:
+
+networks:
+  smsol_studio_network:
+    driver: bridge
+
+parameters:
+    uploads_directory: '%kernel.project_dir%/public/uploads'

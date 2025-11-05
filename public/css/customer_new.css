@@ -1,0 +1,103 @@
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    color: #333;
+}
+
+.customer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.form-card {
+    background: #fff;
+    padding: 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+    max-width: 650px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+.subtitle {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.input-field:focus {
+    border-color: #007bff;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    outline: none;
+}
+
+.form-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.save-btn {
+    background: #007bff;
+    color: #fff;
+}
+
+.save-btn:hover {
+    background: #0056b3;
+}
+
+.cancel-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.cancel-btn:hover {
+    background: #d5d5d5;
+}

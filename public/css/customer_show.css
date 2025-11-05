@@ -1,0 +1,130 @@
+
+body {
+  
+    font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+    text-align: left;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 30px 0 20px 60px;
+    position: relative;
+}
+
+h1::before {
+    content: "👤 ";
+    font-size: 1.6rem;
+}
+
+
+.table {
+    width: 85%;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    animation: fadeIn 0.6s ease;
+}
+
+/* Table Rows */
+.table th, 
+.table td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 1rem;
+}
+
+.table th {
+    background: #f9fafc;
+    color: #555;
+    font-weight: 600;
+    width: 30%;
+}
+
+.table td {
+    color: #333;
+}
+
+.table tr:hover td {
+    background-color: #f9fbff;
+    transition: background 0.2s ease-in-out;
+}
+
+a[href*="app_customer_index"],
+a[href*="app_customer_edit"],
+form[action*="delete"] button {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    margin: 25px 10px 0 60px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+
+a[href*="app_customer_index"] {
+    background: #7f8c8d;
+}
+a[href*="app_customer_index"]:hover {
+    background: #95a5a6;
+}
+
+/* Edit Button */
+a[href*="app_customer_edit"] {
+    background: #3498db;
+}
+a[href*="app_customer_edit"]:hover {
+    background: #2980b9;
+}
+
+/* Delete Button */
+form[action*="delete"] {
+    display: inline-block;
+}
+
+form[action*="delete"] button {
+    background: #e74c3c;
+    border: none;
+    cursor: pointer;
+}
+form[action*="delete"] button:hover {
+    background: #c0392b;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@media (max-width: 768px) {
+    .table {
+        width: 95%;
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        margin-left: 25px;
+        text-align: center;
+    }
+
+    a[href*="app_customer_index"],
+    a[href*="app_customer_edit"],
+    form[action*="delete"] button {
+        margin-left: 25px;
+        margin-right: 25px;
+        width: calc(100% - 50px);
+        text-align: center;
+    }
+}
+

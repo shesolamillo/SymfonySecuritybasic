@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block body %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/category.css') }}">
+{% endblock %}
+
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-modal flash-{{ label }}" id="flashModal">
+            <div class="flash-content">
+                <p>{{ message }}</p>
+                <button class="flash-ok-btn" onclick="closeFlash()">OK</button>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+
+
+<div class="category-container">
+    <h1>Category</h1>
+
+
+
+    <input type="text" class="search-box" id="categorySearch" placeholder="Search categories..." onkeyup="filterCategories()">
+
+    <div class="category-grid" id="categoryGrid">
+        {% for category in categories %}
+        <div class="category-card" data-name="{{ category.category|lower }}" data-id="{{ category.id }}">
+          <img src="{{ category.image ? asset(category.image) : asset('images/default-category.png') }}" alt="{{ category.category }}">
+            <div class="category-name">{{ category.category }}</div>
+
+            {% if category.description %}
+                <p class="category-desc">{{ category.description }}</p>
+            {% endif %}
+
+
+            <div class="card-overlay">
+                <a href="{{ path('app_category_show', {'id': category.id}) }}" class="action-btn show-btn">👁 Show</a>
+                <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="action-btn edit-btn">✏ Edit</a>
+                <button class="action-btn delete-btn" onclick="openModal({{ category.id }})">🗑 Delete</button>
+            </div>
+
+            {# Delete form for JS modal #}
+            <form id="delete-form-{{ category.id }}" method="post" action="{{ path('app_category_delete', {'id': category.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+            </form>
+
+
+        </div>
+        {% else %}
+            <p style="text-align:center;">No categories found. <a href="{{ path('app_category_new') }}" class="create-btn">➕ Create New</a></p>
+        {% endfor %}
+        
+    </div>
+    <a href="{{ path('app_category_new') }}" class="create-btn btn btn-success" style="margin-bottom: 15px; display: inline-block;">➕ Create New Category</a>
+
+    
+
+   
+</div>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this category?</p>
+    <div class="modal-buttons">
+        <button class="confirm-btn" id="confirmDelete">Yes, Delete</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let categoryIdToDelete = null;
+
+function openModal(id) {
+    categoryIdToDelete = id;
+    document.getElementById('deleteModal').style.display = 'block';
+}
+
+function closeModal() {
+    categoryIdToDelete = null;
+    document.getElementById('deleteModal').style.display = 'none';
+}
+
+document.getElementById('confirmDelete').addEventListener('click', function() {
+    if(categoryIdToDelete) {
+        const form = document.getElementById('delete-form-' + categoryIdToDelete);
+        if(form) form.submit();
+    }
+});
+
+function closeFlash() {
+    const modal = document.getElementById('flashModal');
+    if (modal) modal.style.display = 'none';
+}
+
+</script>
+
+{% endblock %}

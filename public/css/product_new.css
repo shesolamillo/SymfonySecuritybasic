@@ -1,0 +1,169 @@
+/* ============================================
+   E-COMMERCE ADMIN STYLE - PRODUCT FORM
+   ============================================ */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    max-width: 1000px;
+    margin: 3em auto;
+    padding: 0 20px;
+}
+
+/* Card */
+.card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 40px 35px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.card h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #ff6f91;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Form Wrapper - Grid Layout */
+.form-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 40px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+    .form-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Labels */
+label, .fs-label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 0.95rem;
+}
+
+/* Inputs & Textarea & Select */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #ff6f91;
+    box-shadow: 0 0 8px rgba(255,111,145,0.25);
+    outline: none;
+    background: #fff;
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* File Upload with Preview */
+input[type="file"] {
+    padding: 12px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+    border-color: #ff6f91;
+}
+
+.image-preview {
+    margin-top: 10px;
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+/* Submit Button */
+.submit-btn {
+    grid-column: span 2;
+    margin-top: 25px;
+    background: linear-gradient(90deg, #ff6f91, #ff9671);
+    color: white;
+    font-weight: 600;
+    padding: 16px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 111, 145, 0.4);
+}
+
+/* Back Link */
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    color: #ff6f91;
+    text-decoration: underline;
+}
+
+/* Flash Messages */
+.flash-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,340 @@
+
+body {
+    font-family: 'Nirmala UI', Arial, sans-serif;
+    background: #5c5c5dff;
+    margin: 0;
+    padding: 0;
+    color: #a1a3a8ff;
+}
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background: #464545ff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px 0;
+    box-shadow: 2px 0 6px rgba(149, 13, 13, 0.05);
+    z-index: 10;
+    transition: width 0.3s ease;
+}
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffffff; 
+    font-size: 2.4em;
+    font-weight: 700;
+}
+
+.sidebar ul li a {
+    color: #ffffff; 
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+.sidebar.collapsed {
+    width: 80px;
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed h2,
+.sidebar.collapsed .logo,
+.sidebar.collapsed ul li a span.text {
+    display: none;
+}
+
+.sidebar.collapsed ul li a {
+    justify-content: center;
+    gap: 0;
+}
+.sidebar.collapsed .label{
+    display: none;
+}
+
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+.sidebar,
+.main,
+.topbar {
+    transition: all 0.3s ease;
+}
+.sidebar.collapsed ~ .main {
+    margin-left: 80px;
+    transition: margin-left 0.3s ease;
+}
+.sidebar.collapsed ~ .topbar {
+    margin-left: 80px;
+    transition: margin-left 0.3s ease;
+}
+.menu-toggle {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 20px;
+    margin-bottom: 15px;
+}
+
+
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 1.1em; 
+    margin-bottom: 10px;
+}
+.sidebar ul li:hover {
+    background: #f3f6f3;
+    transform: scale(1.05);
+    transition: transform 0.2s;
+}
+.section h3 {
+    font-size: 3.2em;  
+    font-weight: 700;  
+    margin-bottom: 20px;
+    color: #fff; 
+
+}
+
+.sidebar ul li a span:first-child {
+    font-size: 1.6em; 
+}
+
+
+.sidebar.collapsed ul li a span:first-child {
+    font-size: 2em;
+}
+
+
+
+
+
+.topbar {
+    margin-left: 300px;
+    height: 90px;
+    background: #292a29ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-top: 15px; 
+}
+.search-box input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+}
+
+.profile {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: url('../images/logo.png') center/contain no-repeat;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3); 
+    margin-top: 5px;
+    
+
+  
+}
+.logo {
+     
+ text-align: center;     
+ margin: 10px 0; 
+}
+
+.sidebar .logo img {
+    width: 100px ;           
+    height: auto ;           
+    border-radius: 50%;     
+    display: inline-block;  
+}
+
+.main {
+    margin-left: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+    display:flex;
+    color: black;
+    flex-direction: column;
+    
+}
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+
+    background: #121212;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    
+}
+.card {
+    flex: 1 1 200px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    font-weight: 600;
+    min-height: 180px;
+    justify-content: center;
+     align-items: center; 
+     font-size: 24px; 
+    display: flex;
+}
+.section {
+    display: none;
+    margin-bottom: 30px;
+}
+.product-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+   
+}
+.product-card {
+    flex: 1 1 200px; 
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    min-width: 500px;
+    box-sizing: border-box;
+    font-weight: 600;
+    text-align: center;
+}
+.product-image {
+    width: 100%;
+    height: 120px;
+    background: #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #111827;
+}
+
+.report-card .product-image {
+    height: 120px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #111827;
+}
+
+.product-actions button:hover {
+    opacity: 0.8;
+}
+
+
+.product-actions button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 5px;
+    transition: opacity 0.2s;
+}
+
+
+.view-details { background: #60a5fa; }
+.update-status { background: #34d399; }
+.cancel-order { background: #f87171; }
+
+
+.report-revenue { background: #d1fae5; }
+.report-sales { background: #fef3c7; }
+.report-top { background: #fee2e2; }
+.report-growth { background: #e0e7ff; }
+
+.main-content {
+    max-width: 3000px; 
+    margin: 0 auto;
+    width: 100%;
+    
+}
+
+
+.logout {
+    position: absolute;
+    bottom: 80px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+}
+
+.logout button {
+    width: 100%;
+    background: #c0392b; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 10px;
+    padding: 12px 0;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.logout button:hover {
+    background: #e74c3c; 
+    transform: scale(1.05);
+}
+
+.charts canvas {
+    width: 100% !important;
+    height: 400px !important;
+    max-height: 400px;
+
+}
+.charts > div {
+    flex: 1;
+    min-width: 300px;
+    min-height: 500px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    background: linear-gradient(135deg, #f7f7f7, #ffffff);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #d1d1d1;
+    color: #222;
+}
+
+
+
+
+        

@@ -1,0 +1,172 @@
+/* --- General Container & Card --- */
+.container, .product-container {
+    width: 100%;
+    max-width: 1400px; 
+    margin: 30px auto; /* gamay nga margin */
+    padding: 25px; /* gamay nga padding */
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+}
+
+.card {
+    background: rgba(255,255,255,0.95);
+    padding: 20px; 
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+/* --- Table --- */
+.table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 0.95rem; /* gamay nga font */
+}
+.table th, .table td { 
+    padding: 10px 12px; 
+}
+.table thead { 
+    background-color: rgba(45,45,45,0.9);
+    color: #fff; 
+    font-weight: 600; 
+}
+.table tbody tr:nth-child(even) { 
+    background-color: rgba(243,243,243,0.85);
+}
+.table tbody tr:hover { 
+    background-color: rgba(224,224,224,0.9);
+}
+
+/* --- Buttons --- */
+.edit-btn, .btn-edit { 
+    background: rgba(70,70,70,0.9);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+.edit-btn:hover, .btn-edit:hover { 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.new-btn, .submit-btn { 
+    background: rgba(120,120,120,0.9); 
+    color: #fff; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    font-weight: 600;
+}
+.new-btn:hover, .submit-btn:hover { 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.delete-btn, .btn-delete {
+    background: rgba(179,0,0,0.9);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+.delete-btn:hover, .btn-delete:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.btn-back {
+    background: rgba(45,45,45,0.9);
+    color: #fff;
+}
+.btn-back:hover {
+    background: rgba(30,30,30,0.9);
+}
+
+/* --- Forms --- */
+.form-card, .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+.form-row label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #2d2d2d;
+}
+.form-card input,
+.form-card select,
+.form-card textarea,
+.form-row input,
+.form-row select,
+.form-row textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    background: rgba(255,255,255,0.95);
+    font-size: 1rem;
+    width: 100%;
+}
+
+/* --- Image Preview --- */
+.image-preview {
+    display: block;
+    max-width: 180px; /* gamay nga image */
+    margin: 0 auto 15px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    object-fit: cover;
+}
+
+/* --- Product Card Details --- */
+.product-card {
+    background: rgba(255,255,255,0.95);
+    padding: 15px; /* gamay nga padding */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+.product-card div { margin-bottom: 8px; font-size: 1.05em; }
+.product-card strong { color: #2d2d2d; }
+
+/* --- Action Buttons --- */
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* --- Back Link --- */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+}
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+    .card, .product-card, .form-card { padding: 15px; }
+    .table th, .table td { padding: 8px 10px; font-size: 0.9rem; }
+    .image-preview { max-width: 150px; }
+}
+
+@media (max-width: 768px) {
+    .container, .product-container { padding: 10px; }
+    .form-card input,
+    .form-card select,
+    .form-card textarea,
+    .form-row input,
+    .form-row select,
+    .form-row textarea { padding: 8px; font-size: 0.9rem; }
+    .actions { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+    .card, .product-card, .form-card { padding: 10px; }
+    .image-preview { max-width: 120px; }
+    .table th, .table td { font-size: 0.8rem; padding: 6px 8px; }
+}

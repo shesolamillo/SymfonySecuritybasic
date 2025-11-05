@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category Details{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/category_show.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="category-wrapper">
+
+    <!-- Header -->
+    <div class="category-header">
+        <h1>📂 Category Details</h1>
+        <p class="subtitle">View information about this category and its associated products</p>
+        <a href="{{ path('app_category_index') }}" class="btn back-btn">← Back to List</a>
+    </div>
+
+    <!-- Category Info Card -->
+    <div class="category-card">
+        <h2 class="section-title">Category Information</h2>
+        <table class="info-table">
+            <tr>
+                <th>ID</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Category Name</th>
+                <td>{{ category.category }}</td>
+            </tr>
+            <tr>
+                <th>Products Count</th>
+                <td>{{ category.products|length }}</td>
+            </tr>
+        </table>
+
+        <div class="action-buttons">
+            <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn edit-btn">✏️ Edit</a>
+            {{ include('category/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    <!-- Products List -->
+    <div class="products-section">
+        <div class="section-header">
+            <h2>🛒 Products in {{ category.category }}</h2>
+            <a href="{{ path('app_product_new') }}" class="btn add-btn">+ Add Product</a>
+        </div>
+
+        {% if category.products is not empty %}
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in category.products %}
+                    <tr>
+                        <td>
+                            {% if product.image %}
+                                <img src="{{ asset('uploads/' ~ product.image) }}" alt="{{ product.name }}" class="product-thumb">
+                            {% else %}
+                                <img src="{{ asset('images/no-image.png') }}" alt="No Image" class="product-thumb">
+                            {% endif %}
+                        </td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}</td>
+                        <td>₱{{ product.price|number_format(2, '.', ',') }}</td>
+                        <td>{{ product.createdAt|date('Y-m-d') }}</td>
+                        <td>
+                            <a href="{{ path('app_product_show_all', {'id': product.id}) }}" class="btn view-btn">View</a>
+                            <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn edit-btn btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-message">No products found in this category.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

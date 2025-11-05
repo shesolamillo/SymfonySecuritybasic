@@ -1,0 +1,116 @@
+<script>
+let currentDeleteId = null;
+
+// Search orders
+document.getElementById('searchBox').addEventListener('input', function() {
+    const term = this.value.toLowerCase();
+    document.querySelectorAll('#ordersTable tbody tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+    });
+});
+
+// Filter by status
+document.getElementById('statusFilter').addEventListener('change', function() {
+    const status = this.value.toLowerCase();
+    document.querySelectorAll('#ordersTable tbody tr').forEach(row => {
+        const rowStatus = row.querySelector('.status').textContent.toLowerCase();
+        row.style.display = (!status || rowStatus === status) ? '' : 'none';
+    });
+});
+
+// Table sorting
+function sortTable(columnIndex, type = 'text') {
+    const table = document.getElementById('ordersTable');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    
+    rows.sort((a, b) => {
+        let aValue = a.cells[columnIndex].textContent.trim();
+        let bValue = b.cells[columnIndex].textContent.trim();
+
+        if(type === 'number') return parseInt(aValue) - parseInt(bValue);
+        if(type === 'date') return new Date(aValue) - new Date(bValue);
+        return aValue.localeCompare(bValue);
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+    showNotification('Table sorted successfully!');
+}
+
+// Bind click events for sorting
+document.querySelectorAll('#ordersTable th').forEach((th, idx) => {
+    if(th.textContent.includes('Id')) {
+        th.style.cursor = 'pointer';
+        th.onclick = () => sortTable(idx, 'number');
+    }
+    if(th.textContent.includes('OrderDate')) {
+        th.style.cursor = 'pointer';
+        th.onclick = () => sortTable(idx, 'date');
+    }
+});
+
+// Modals
+function confirmDelete(orderId) {
+    currentDeleteId = orderId;
+    document.getElementById('deleteModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+    currentDeleteId = null;
+}
+
+function showCreateModal() {
+    document.getElementById('createModal').style.display = 'block';
+}
+
+function closeCreateModal() {
+    document.getElementById('createModal').style.display = 'none';
+    document.getElementById('createForm').reset();
+}
+
+// Delete Order
+function deleteOrder() {
+    if (!currentDeleteId) return;
+    document.querySelectorAll('#ordersTable tbody tr').forEach(row => {
+        if (row.cells[0].textContent == currentDeleteId) {
+            row.remove();
+        }
+    });
+    updateStatistics();
+    closeModal();
+    showNotification('Order deleted successfully!');
+}
+
+// Show notification
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 3000);
+}
+
+// Update statistics
+function updateStatistics() {
+    const rows = document.querySelectorAll('#ordersTable tbody tr');
+    document.getElementById('totalOrders').textContent = rows.length;
+
+    const counts = { pending: 0, completed: 0, processing: 0 };
+    rows.forEach(row => {
+        const status = row.querySelector('.status').textContent.toLowerCase();
+        if(counts[status] !== undefined) counts[status]++;
+    });
+
+    document.getElementById('pendingOrders').textContent = counts.pending;
+    document.getElementById('completedOrders').textContent = counts.completed;
+    document.getElementById('processingOrders').textContent = counts.processing;
+}
+
+// Close modals by clicking outside
+window.addEventListener('click', e => {
+    if(e.target.id === 'deleteModal') closeModal();
+    if(e.target.id === 'createModal') closeCreateModal();
+});
+
+document.addEventListener('DOMContentLoaded', updateStatistics);
+</script>

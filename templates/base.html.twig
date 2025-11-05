@@ -1,17 +1,94 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+    {% block stylesheets %}
+       <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+      
+    {% endblock %}
+
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+
+       <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+        <h2 class="label">Dashboard</h2>
+
+
+        <div class="logo">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        </div>
+
+
+        <ul>
+            <li><a href="{{ path('app_dashboard') }}"><span>🏠</span> <span class="label">Dashboard</span></a></li>
+             <li><a href="{{ path('app_product_index') }}"><span>👕</span> <span class="label">Product</span></a></li>
+            <li><a href="{{ path('app_category_index') }}"><span>📦</span> <span class="label">Category</span></a></li>
+            <li><a href="{{ path('app_order_index') }}"><span>📦</span> <span class="label">Orders</span></a></li>
+            <li><a href="{{ path('app_customer_index') }}"><span>🧑‍🤝‍🧑</span> <span class="label">Customers</span></a></li>
+                <li><a href="#" onclick="showSection('loyalty')"><span>💎</span> <span class="label">Loyalty</span></a></li>
+                <li><a href="#" onclick="showSection('reports')"><span>📊</span> <span class="label">Reports</span></a></li>
+                <li><a href="#" onclick="showSection('settings')"><span>⚙️</span> <span class="label">Settings</span></a></li>
+
+
+        </ul>
+
+        <div class="logout">
+            <button>🚪 Logout</button>
+        </div>
+
+
+
+
+
+    </div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="profile"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
         {% block body %}{% endblock %}
-    </body>
+    </div>
+
+    <script>
+        document.addEventListener('turbo:load', () => {
+            // Sidebar Navigation
+            window.showSection = function(id) {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                const section = document.getElementById(id);
+                if (section) section.style.display = 'block';
+            }
+
+            // Toggle Add Product Form
+            const addBtn = document.querySelector('.add-product');
+            if (addBtn) {
+                addBtn.addEventListener('click', function() {
+                    const form = document.getElementById('addProductForm');
+                    if (form) {
+                        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                        form.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }
+        });
+
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+
+    </script>
+
+</body>
 </html>

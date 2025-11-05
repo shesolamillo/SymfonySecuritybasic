@@ -1,0 +1,25 @@
+{# templates/order/_form.html.twig #}
+
+{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+
+<div class="form-group mb-3">
+    {{ form_label(form.orderDate) }}
+    {{ form_widget(form.orderDate, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.orderDate) }}
+</div>
+
+<div class="form-group mb-3">
+    {{ form_label(form.status) }}
+    {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.status) }}
+</div>
+
+<div class="form-group mb-3">
+    {{ form_label(form.product) }}
+    {{ form_widget(form.product, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.product) }}
+</div>
+
+<button class="btn btn-primary mt-3">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

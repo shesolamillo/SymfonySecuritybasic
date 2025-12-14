@@ -3,84 +3,83 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 {% endblock %}
 
 {% block body %}
 
 <div class="main-content">
-    <div id="overview" class="section" style="display:block;">
-        <h3>Overview</h3>
-        <div class="cards">
-            <div class="card">Total Products:<br><br> {{ products|length }}</div>
-            <div class="card">Orders Today:<br><br> 5</div>
-            <div class="card">Pending Orders:<br><br> 2</div>
-            <div class="card">Completed Orders:<br><br> 3</div>
-            <div class="card">Total Customers:<br><br> 20</div>
-            <div class="card">Revenue Today:<br><br> 350</div>
-            <div class="card">New Signups:<br><br> 3</div>
-        </div>
 
-        <div class="charts" style="display:flex; gap:20px; margin-top:30px;">
-            <div style="flex:1; min-width:300px; background:#fff; padding:20px; border-radius:12px;">
-                <h4>Overview Metrics</h4>
-                <canvas id="overviewChart" width="400" height="250"></canvas>
+    <!-- Cards Overview: Orders & Loyalty -->
+    <div class="cards">
+        <div class="card">Orders Today: {{ salesToday }}</div>
+        <div class="card">Pending Orders: {{ pendingOrders }}</div>
+        <div class="card">Completed Orders: {{ completedOrders }}</div>
+
+        {# Loyalty info for ROLE_USER #}
+        {% if is_granted('ROLE_USER') %}
+            <div class="card">
+                My Points: {{ myLoyalty.points|default(0) }}
+                {% if myLoyalty.rewardType is defined and myLoyalty.rewardType %}
+                    <br><span class="badge bg-success">{{ myLoyalty.rewardType }}</span>
+                {% endif %}
             </div>
-            <div style="flex:1; min-width:300px; background:#fff; padding:20px; border-radius:12px;">
-                <h4>Earnings</h4>
-                <canvas id="earningsChart" width="400" height="250"></canvas>
+        {% endif %}
+
+        {# Loyalty overview for ROLE_STAFF #}
+        {% if is_granted('ROLE_STAFF') %}
+            <div class="card">
+                Total Loyalty Users: {{ totalLoyaltyUsers|default(0) }}
             </div>
-        </div>
+        {% endif %}
+
+        {# Admin full control #}
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="card">
+                Admin: Full Loyalty Control
+            </div>
+        {% endif %}
     </div>
+
+    <!-- Loyalty Chart for STAFF/ADMIN -->
+    {% if is_granted('ROLE_STAFF') or is_granted('ROLE_ADMIN') %}
+    <div class="charts">
+        <div class="chart-card"><canvas id="loyaltyChart"></canvas></div>
+    </div>
+    {% endif %}
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const overviewCtx = document.getElementById('overviewChart').getContext('2d');
-    const earningsCtx = document.getElementById('earningsChart').getContext('2d');
 
-    
-    const overviewChart = new Chart(document.getElementById('overviewChart').getContext('2d'), {
+<script>
+{% if loyaltyUsers is defined and loyaltyUsers|length > 0 and (is_granted('ROLE_STAFF') or is_granted('ROLE_ADMIN')) %}
+
+const labels = [{{ loyaltyUsers|map(u => "'" ~ u.user.username ~ "'")|join(',') }}];
+const points = [{{ loyaltyUsers|map(u => u.points|default(0))|join(',') }}];
+
+new Chart(document.getElementById('loyaltyChart'), {
     type: 'bar',
     data: {
-        labels: ['Total Products', 'Orders Today', 'Pending Orders', 'Completed Orders', 'Total Customers', 'Revenue Today', 'New Signups'],
+        labels: labels,
         datasets: [{
-            label: 'Metrics Overview',
-            data: [{{ products|length }},5,2,3,20,350,3],
-            backgroundColor: ['#4ade80','#60a5fa','#facc15','#f87171','#34d399','#818cf8','#f472b6']
+            label: 'Loyalty Points',
+            data: points,
+            backgroundColor: 'rgba(99,102,241,0.8)'
         }]
     },
     options: {
         responsive: true,
-        maintainAspectRatio: true,
-        aspectRatio: 2,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
+        maintainAspectRatio: false,
+        scales: {
+            y: { beginAtZero: true }
+        }
     }
 });
 
-const earningsChart = new Chart(document.getElementById('earningsChart').getContext('2d'), {
-    type: 'line',
-    data: {
-        labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-        datasets:[{
-            label:'Earnings ($)',
-            data:[100,150,120,200,180,250,300],
-            borderColor:'#4ade80',
-            backgroundColor:'rgba(74,222,128,0.2)',
-            fill:true,
-            tension:0.4
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        aspectRatio: 2,
-        plugins: { legend: { display: true } },
-        scales: { y: { beginAtZero: true } }
-    }
-});
-
+{% endif %}
 </script>
+
+
 {% endblock %}

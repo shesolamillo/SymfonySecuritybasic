@@ -1,0 +1,271 @@
+/* base.css */
+body {
+    font-family: 'Nirmala UI', Arial, sans-serif;
+    background: #5c5c5dff;
+    margin: 0;
+    padding: 0;
+    color: #a1a3a8ff;
+}
+
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background: #464545ff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px 0;
+    box-shadow: 2px 0 6px rgba(149, 13, 13, 0.05);
+    z-index: 10;
+    transition: width 0.3s ease;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffffff; 
+    font-size: 2.4em;
+    font-weight: 700;
+}
+
+.sidebar ul li a {
+    color: #ffffff; 
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed h2,
+.sidebar.collapsed .logo,
+.sidebar.collapsed ul li a span.text {
+    display: none;
+}
+
+.sidebar.collapsed ul li a {
+    justify-content: center;
+    gap: 0;
+}
+
+.sidebar.collapsed .label {
+    display: none;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+.sidebar,
+.main,
+.topbar {
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main {
+    margin-left: 80px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .topbar {
+    margin-left: 80px;
+    transition: margin-left 0.3s ease;
+}
+
+.menu-toggle {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 20px;
+    margin-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 1.1em; 
+    margin-bottom: 10px;
+}
+
+.sidebar ul li:hover {
+    background: #f3f6f3;
+    transform: scale(1.05);
+    transition: transform 0.2s;
+}
+
+.topbar {
+    margin-left: 300px;
+    height: 90px;
+    background: #292a29ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-top: 15px; 
+}
+
+.search-box input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+}
+
+.profile .profile-icon {
+    
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3); 
+    margin-top: 5px;
+    position: relative;
+    display: inline-block;
+    
+}
+
+.profile-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100px;
+    height: 100px;
+}
+
+ .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-width: 150px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+ .dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+.profile .dropdown-menu.show {
+    display: block;
+}
+
+
+.logo {
+    text-align: center;     
+    margin: 10px 0; 
+}
+
+.sidebar .logo img {
+    width: 100px;           
+    height: auto;           
+    border-radius: 50%;     
+    display: inline-block;  
+}
+
+.main {
+    margin-left: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+    display:flex;
+    color: black;
+    flex-direction: column;
+}
+
+.logout {
+    position: absolute;
+    bottom: 80px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+}
+
+.logout button {
+    width: 100%;
+    background: #c0392b; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 10px;
+    padding: 12px 0;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.logout button:hover {
+    background: #e74c3c; 
+    transform: scale(1.05);
+}
+/* Global profile picture */
+.profile img,
+.profile-avatar
+ {
+    width: 100px;          /* adjust size as needed */
+    height: 60px;         /* keep it square */
+    border-radius: 50%;   /* makes it perfectly circular */
+    object-fit: cover;    /* crop image properly without distortion */
+    display: block;       /* ensure proper layout */
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-list {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.search-list div {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.search-list div:hover {
+    background: #f0f0f0;
+}
+
+.profile {
+    position: relative; /* important for dropdown positioning */
+    display: inline-block;
+}

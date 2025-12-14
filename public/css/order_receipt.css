@@ -1,0 +1,140 @@
+        /* Overlay */
+        .receipt-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Modal */
+        .receipt-modal {
+            width: 430px;
+            background: #e8e7ef;
+            border-radius: 60px;
+            padding: 25px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Receipt white panel */
+        .receipt-card {
+            width: 85%;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.05);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .receipt-header {
+            text-align: center;
+        }
+
+        .receipt-header img {
+            width: 65px;
+            margin-bottom: 10px;
+        }
+
+        .receipt-header h3 {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 15px 0;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* Item Row */
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+        }
+
+        .item-row small {
+            color: #777;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: #f2f2f7;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .summary-row,
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 7px 0;
+        }
+
+        .total-row {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .thanks-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #444;
+        }
+
+        /* Footer Buttons */
+        .modal-footer {
+            width: 85%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .close-btn,
+        .download-btn {
+            width: 48%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .download-btn {
+            background: #6a676f;
+            color: white;
+        }
+
+        @media print {
+        .close-btn, .download-btn, .modal-footer {
+            display: none !important;
+        }
+        .receipt-overlay {
+            background: white !important;
+            padding: 0 !important;
+        }
+    }

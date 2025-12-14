@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ActivityLog index{% endblock %}
+
+{% block body %}
+    <h1>ActivityLog index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Action</th>
+                <th>TargetData</th>
+                <th>Role</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for activity_log in activity_logs %}
+            <tr>
+                <td>{{ activity_log.id }}</td>
+                <td>{{ activity_log.action }}</td>
+                <td>{{ activity_log.targetData }}</td>
+                <td>{{ activity_log.role }}</td>
+                <td>{{ activity_log.createdAt ? activity_log.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_activity_log_show', {'id': activity_log.id}) }}">show</a>
+                    <a href="{{ path('app_activity_log_edit', {'id': activity_log.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_activity_log_new') }}">Create new</a>
+{% endblock %}

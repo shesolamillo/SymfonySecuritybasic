@@ -27,17 +27,32 @@
             {# --- Edit Form --- #}
             {{ form_start(form, {'attr': {'enctype': 'multipart/form-data', 'id': 'edit_product_form_' ~ product.id}}) }}
                 <div class="form-wrapper">
-                    {% for child in form %}
-                        <div class="form-row">
-                            {{ form_label(child) }}
-                            {{ form_widget(child) }}
-                            {{ form_errors(child) }}
-                        </div>
-                    {% endfor %}
+
+                    {{ form_row(form.name) }}
+
+                    <div class="fs-field">
+                        {{ form_label(form.category, 'Product Category', { 'label_attr': {'class': 'fs-label'} }) }}
+                        {{ form_widget(form.category, { 'attr': {'class': 'fs-input', 'placeholder': 'Category'} }) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+
+                    {{ form_row(form.price) }}
+
+                    {{ form_row(form.createdAt) }}
+
+                    <div class="full-width">
+                        {{ form_row(form.description) }}
+                    </div>
+
+                    <div class="full-width">
+                        {{ form_row(form.image) }}
+                    </div>
+
                 </div>
 
                 <button type="submit" class="submit-btn">{{ button_label|default('Update Product') }}</button>
-            {{ form_end(form) }}
+                {{ form_end(form) }}
+
 
             {# --- Delete Button --- #}
             <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}" 

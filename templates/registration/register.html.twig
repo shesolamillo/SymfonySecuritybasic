@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="auth-container register-mode">
+
+        
+        <div class="form-panel">
+            
+            <h1>Register</h1>
+
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.username) }}
+                {{ form_row(registrationForm.email) }} 
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+
+                <button type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}
+            
+        
+        </div>
+
+
+        <div class="side-panel">
+            <h2>Already have an account?</h2>
+            <p>Please Log in!</p>
+            <a href="{{ path('app_login') }}" id="goLogin" class="side-btn">LOG IN</a>
+        </div>
+    </div>
+
+<script>
+const container = document.querySelector('.auth-container');
+const goRegisterBtn = document.getElementById('goRegister');
+
+goRegisterBtn.addEventListener('click', function(e){
+    e.preventDefault();
+
+    if (!container.classList.contains('register-mode')) {
+        container.classList.add('register-mode');
+
+        // remove animation after it finishes
+        const formPanel = container.querySelector('.form-panel');
+        const sidePanel = container.querySelector('.side-panel');
+
+        formPanel.addEventListener('animationend', () => { formPanel.style.animation = ''; }, { once: true });
+        sidePanel.addEventListener('animationend', () => { sidePanel.style.animation = ''; }, { once: true });
+    }
+
+    setTimeout(() => { window.location = this.href }, 2000); // match CSS 2s animation
+});
+</script>
+
+
+{% endblock %}
+
+

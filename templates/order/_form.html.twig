@@ -1,25 +1,232 @@
 {# templates/order/_form.html.twig #}
 
-{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+{{ form_start(form, {'attr': {'id': 'orderForm', 'class': 'needs-validation'}}) }}
 
-<div class="form-group mb-3">
-    {{ form_label(form.orderDate) }}
-    {{ form_widget(form.orderDate, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.orderDate) }}
+{# HIDDEN Symfony fields #}
+<div style="display:none;">
+    {{ form_widget(form) }}
+    <input type="hidden" name="items" id="itemsInput">
+</div>
+<input type="hidden" name="order[orderDate]" id="orderDateInput" value="{{ "now"|date("Y-m-d H:i:s") }}">
+
+<!-- Customer Name -->
+<label>User Name</label>
+<input type="text" name="username" class="form-control" required>
+
+
+<!-- Category Filter -->
+<label>Filter by Category</label>
+<select id="categoryFilter" class="form-control">
+    <option value="">All</option>
+    <option value="Human">Human</option>
+    <option value="Pet">Pet</option>
+</select>
+
+<!-- Product Selector -->
+<label>Add Products</label>
+<div class="product-row">
+    <select id="productSelect" class="form-control">
+        <option selected disabled>Select a product...</option>
+        {% for product in products %}
+            <option 
+                data-name="{{ product.name }}"
+                data-price="{{ product.price }}"
+                value="{{ product.id }}">
+                {{ product.name }} - ₱{{ product.price }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <input type="number" id="qtyInput" class="qty-box" value="1" min="1">
+    <button type="button" id="addBtn" class="add-btn">Add</button>
 </div>
 
-<div class="form-group mb-3">
-    {{ form_label(form.status) }}
-    {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.status) }}
+<!-- Order Summary -->
+<div class="summary-box">
+    <h3>Order Summary</h3>
+    <ul id="summaryList"></ul>
+    <h2>Total: ₱ <span id="totalAmount">0</span></h2>
 </div>
 
-<div class="form-group mb-3">
-    {{ form_label(form.product) }}
-    {{ form_widget(form.product, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.product) }}
-</div>
+<!-- Footer Buttons -->
+<div class="footer-buttons">
+    <a href="{{ path('app_order_index') }}" class="btn-cancel">Cancel</a>
+    <button type="button" onclick="openPaymentModal()" class="submit-btn">Create & Pay</button>
 
-<button class="btn btn-primary mt-3">{{ button_label|default('Save') }}</button>
+</div>
 
 {{ form_end(form) }}
+
+<script>
+let total = 0;
+const summaryList = document.getElementById("summaryList");
+const totalAmount = document.getElementById("totalAmount");
+const itemsInput = document.getElementById("itemsInput");
+const items = [];
+
+// Add product
+document.getElementById("addBtn").addEventListener("click", function () {
+    const select = document.getElementById("productSelect");
+    const qty = parseInt(document.getElementById("qtyInput").value);
+    if (!select.value) return;
+
+    const opt = select.options[select.selectedIndex];
+    const name = opt.dataset.name;
+    const price = parseFloat(opt.dataset.price);
+
+    const li = document.createElement("li");
+    li.dataset.id = opt.value;
+    li.dataset.name = name;
+    li.dataset.price = price;
+    li.dataset.qty = qty;
+    li.textContent = `${name} x${qty} — ₱${price * qty}`;
+    summaryList.appendChild(li);
+
+    total += price * qty;
+    totalAmount.textContent = total;
+});
+
+// Open payment modal
+function openPaymentModal() {
+    const username = document.querySelector("input[name='username']").value;
+    if (username.trim() === "") return alert("Please enter a username.");
+
+    if (total === 0) return alert("Please add a product first.");
+
+    document.getElementById("pm-order-id").textContent = "#" + Math.floor(Math.random() * 10000);
+    document.getElementById("pm-total").textContent = total;
+    document.getElementById("paymentModal").style.display = "block";
+}
+
+// OPEN PAYMENT MODAL
+function openPaymentModal() {
+    const username = document.querySelector("input[name='username']").value;
+    const totalText = document.getElementById("totalAmount").textContent;
+
+    if (username.trim() === "") {
+        alert("Please enter a username.");
+        return;
+    }
+
+    if (totalText === "0") {
+        alert("Please add a product first.");
+        return;
+    }
+
+    const orderNum = "ORD" + Math.floor(Math.random() * 10000);
+    document.getElementById("pm-order-id").textContent = "#" + orderNum;
+    document.getElementById("pm-total").textContent = totalText;
+
+    document.getElementById("paymentModal").style.display = "block";
+
+    // Reset all payment sections
+    document.getElementById("pm-method").value = "cash";
+    updatePaymentSection();
+}
+
+// CLOSE MODAL
+function closePaymentModal() {
+    document.getElementById("paymentModal").style.display = "none";
+}
+
+// SHOW/HIDE SECTIONS BASED ON PAYMENT METHOD
+document.getElementById("pm-method").addEventListener("change", updatePaymentSection);
+
+function updatePaymentSection() {
+    const method = document.getElementById("pm-method").value;
+    document.getElementById("cashSection").style.display = method === "cash" ? "block" : "none";
+    document.getElementById("gcashSection").style.display = method === "gcash" ? "block" : "none";
+    document.getElementById("cardSection").style.display = method === "card" ? "block" : "none";
+}
+
+// CASH CHANGE CALCULATION
+document.getElementById("cashGiven").addEventListener("input", function () {
+    const total = parseFloat(document.getElementById("pm-total").textContent);
+    const given = parseFloat(this.value);
+    const change = given - total;
+    document.getElementById("changeAmount").textContent = change > 0 ? change.toFixed(2) : "0";
+});
+
+// FINAL PAYMENT SUBMIT
+function completePayment() {
+    const method = document.getElementById("pm-method").value;
+
+    if (method === "cash") {
+        const given = parseFloat(document.getElementById("cashGiven").value);
+        const total = parseFloat(document.getElementById("pm-total").textContent);
+
+        if (!given || given < total) {
+            alert("Cash given is not enough.");
+            return;
+        }
+    }
+
+    if (method === "gcash") {
+        const number = document.getElementById("gcashNumber").value.trim();
+        if (!number) {
+            alert("Please enter GCash number.");
+            return;
+        }
+    }
+
+    if (method === "card") {
+        const number = document.getElementById("cardNumber").value.trim();
+        if (!number) {
+            alert("Please enter card number.");
+            return;
+        }
+    }
+
+
+
+    const items = [];
+    document.querySelectorAll("#summaryList li").forEach(li => {
+        items.push({
+             product_id: li.dataset.id,
+            id: li.dataset.id,
+            name: li.dataset.name,
+            price: parseFloat(li.dataset.price),
+            qty: parseInt(li.dataset.qty)
+        });
+    });
+
+
+
+    
+    if (items.length === 0) {
+        alert("Please add at least one product.");
+        return;
+    }
+
+
+
+
+
+    itemsInput.value = JSON.stringify(items);
+
+
+
+    const productField = document.querySelector("select[name='order[product]']");
+    if (items.length === 1) {
+        productField.value = items[0].id; // set product_id for single product order
+    }
+
+
+
+
+
+
+
+    // Append payment method to form and submit
+    const form = document.getElementById("orderForm");
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "paymentMethod";
+    hidden.value = method;
+    form.appendChild(hidden);
+
+    form.submit();
+}
+
+
+</script>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Loyalty{% endblock %}
+
+{% block body %}
+    <h1>Create new Loyalty</h1>
+
+    {{ include('loyalty/_form.html.twig') }}
+
+    <a href="{{ path('app_loyalty_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %} {# nag-extend sa main layout #}
+
+{% block title %}Order Receipt{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/order_receipt.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="receipt-overlay">
+    <div class="receipt-modal">
+
+        <div class="receipt-card">
+
+            <div class="receipt-header">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo">
+                <h3>Official Sales Receipt</h3>
+            </div>
+
+            <hr class="divider">
+
+            <div class="receipt-row">
+                <span>Receipt # :</span>
+                <span>#ORD{{ order.id }}</span>
+            </div>
+
+            <div class="receipt-row">
+                <span>Date:</span>
+                <span>{{ order.orderDate|date('F j, Y • h:i A') }}</span>
+            </div>
+
+            <div class="receipt-row">
+                <span>Customer:</span>
+                <span>{{ order.user.username }}</span>
+            </div>
+
+
+            <div class="receipt-row">
+                <span>Payment Status:</span>
+                <span>Paid</span>
+            </div>
+
+            <h4 class="section-title">Items</h4>
+            <hr class="divider">
+
+            {% for item in items %}
+                <div class="item-row">
+                    <div>
+                        <strong>{{ item.name }}</strong><br>
+                        <small>₱ {{ item.price }} × {{ item.quantity }}</small>
+                    </div>
+                    <strong>₱ {{ item.price * item.quantity }}</strong>
+                </div>
+            {% endfor %}
+
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>₱ {{ total }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (0%):</span>
+                    <span>₱ 0.00</span>
+                </div>
+                <div class="total-row">
+                    <span>Total :</span>
+                    <span>₱ {{ total }}</span>
+                </div>
+            </div>
+
+            <p class="thanks-text">
+                Thank you for your purchase!<br>
+                <small>Please keep this receipt for reference.</small>
+            </p>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="close-btn" onclick="window.history.back()">Close</button>
+            <button class="download-btn">Download</button>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -17,7 +17,7 @@ body {
     width: 90%;  
 }
 
-/* Header */
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -40,7 +40,7 @@ body {
     outline: 2px solid #20c997;
 }
 
-/* Table */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -64,7 +64,7 @@ tr:hover {
     background-color: #3a3a3a;
 }
 
-/* Actions */
+
 .actions a {
     text-decoration: none;
     padding: 6px 12px;
@@ -83,7 +83,7 @@ tr:hover {
     opacity: 0.85;
 }
 
-/* Create Button */
+
 .create-btn {
     display: inline-block;
     padding: 10px 20px;
@@ -99,7 +99,6 @@ tr:hover {
     background-color: #17a589;
 }
 
-/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -129,7 +128,7 @@ tr:hover {
     font-size: 18px;
 }
 
-/* Notification */
+
 .notification {
     position: fixed;
     top: 20px;

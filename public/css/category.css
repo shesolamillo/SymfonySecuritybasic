@@ -120,8 +120,8 @@ h1::after {
     transition: all 0.2s ease;
 }
 
-.show-btn { background-color: #3498db; }
-.show-btn:hover { background-color: #1f7acb; }
+.show-btn { background-color: #d6dcdf; }
+.show-btn:hover { background-color: #323232; }
 
 .edit-btn { background-color: #9b59b6; }
 .edit-btn:hover { background-color: #863e9f; }

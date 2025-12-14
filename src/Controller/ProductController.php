@@ -12,11 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Http\Attribute\IsGranted;
 
+
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    #[Route(name: 'app_product_index', methods: ['GET'])]
+    #[Route('/index',name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
@@ -33,6 +36,8 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+             $product->setUser($this->getUser());
             // Handle image upload
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
@@ -60,7 +65,7 @@ final class ProductController extends AbstractController
 
         return $this->render('product/new.html.twig', [
             'product' => $product,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -71,6 +76,18 @@ final class ProductController extends AbstractController
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
+        ]);
+    }
+
+    #[Route('/{id}/show', name: 'app_product_show', methods: ['GET',])]
+    public function show(Product $product): Response
+    {
+        if (!$product) {
+           throw $this->createNotFoundException('Product not found');
+           // Or redirect: return $this->redirectToRoute('app_product_index');
+       }
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
         ]);
     }
 

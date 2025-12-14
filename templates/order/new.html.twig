@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Order{% endblock %}
+{% block title %}Create New Order{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -8,16 +8,167 @@
 {% endblock %}
 
 {% block body %}
-<div class="order-container">
-    <div class="order-card">
-        <div class="header">
-            <h1>Create New Order</h1>
-            <a href="{{ path('app_order_index') }}" class="back-btn">← Back to Orders</a>
-        </div>
+<h1>Create New Order</h1>
 
-        <div class="form-section">
-            {{ include('order/_form.html.twig') }}
-        </div>
+<div class="create-order-modal">
+    <div class="modal-card">
+        <h2>New Order</h2>
+
+        {# Include full custom form #}
+        {{ include('order/_form.html.twig', { form: form, products: products }) }}
     </div>
 </div>
+
+{# ========================================================= #}
+{# PAYMENT MODAL                                             #}
+{# ========================================================= #}
+{# PAYMENT MODAL #}
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <h2>Payment</h2>
+        <p>Order ID: <strong id="pm-order-id"></strong></p>
+        <p>Total Amount: ₱ <strong id="pm-total">0.00</strong></p>
+
+        <label>Payment Method</label>
+        <select id="pm-method" class="form-control">
+            <option value="cash">Cash</option>
+            <option value="gcash">GCash</option>
+            <option value="card">Card</option>
+        </select>
+
+        <!-- CASH SECTION -->
+        <div id="cashSection" style="display:none; margin-top:15px;">
+            <label>Cash Given</label>
+            <input type="number" id="cashGiven" class="form-control" min="0">
+            <p style="margin-top:10px;">
+                Change: ₱ {{ order.product ? order.product.price : (order.totalPrice ?: 0) }}
+            </p>
+        </div>
+
+        <!-- GCASH SECTION -->
+        <div id="gcashSection" style="display:none; margin-top:15px;">
+            <label>GCash Number</label>
+            <input type="text" id="gcashNumber" class="form-control" placeholder="Enter GCash number">
+        </div>
+
+        <!-- CARD SECTION -->
+        <div id="cardSection" style="display:none; margin-top:15px;">
+            <label>Card Number</label>
+            <input type="text" id="cardNumber" class="form-control" placeholder="Enter card number">
+        </div>
+
+        <button class="submit-btn" onclick="completePayment()">Confirm Payment</button>
+        <button class="modal-close" onclick="closePaymentModal()">Close</button>
+    </div>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    \<!-- Add this inside your <script> tag, replacing old modal JS -->
+
+// Grab elements
+const summaryList = document.getElementById("summaryList");
+const totalAmount = document.getElementById("totalAmount");
+const itemsInput = document.getElementById("itemsInput");
+
+// Open Payment Modal
+function openPaymentModal() {
+    const username = document.querySelector("input[name='username']").value.trim();
+    if (!username) return alert("Please enter a username.");
+    if (summaryList.children.length === 0) return alert("Please add at least one product.");
+
+    // Show order number and total
+    const orderNum = "ORD" + Math.floor(Math.random() * 10000);
+    document.getElementById("pm-order-id").textContent = "#" + orderNum;
+    document.getElementById("pm-total").textContent = totalAmount.textContent;
+
+    // Fill modal with product summary
+    const modalList = document.getElementById("paymentSummary");
+    modalList.innerHTML = ""; // clear previous
+    summaryList.querySelectorAll("li").forEach(li => {
+        const row = document.createElement("li");
+        row.textContent = `${li.dataset.name} x${li.dataset.qty} — ₱${(li.dataset.price * li.dataset.qty).toFixed(2)}`;
+        modalList.appendChild(row);
+    });
+
+    // Reset payment method sections
+    document.getElementById("pm-method").value = "cash";
+    updatePaymentSection();
+
+    document.getElementById("paymentModal").style.display = "block";
+}
+
+// Close modal
+function closePaymentModal() {
+    document.getElementById("paymentModal").style.display = "none";
+}
+
+// Show/hide payment sections
+document.getElementById("pm-method").addEventListener("change", updatePaymentSection);
+function updatePaymentSection() {
+    const method = document.getElementById("pm-method").value;
+    document.getElementById("cashSection").style.display = method === "cash" ? "block" : "none";
+    document.getElementById("gcashSection").style.display = method === "gcash" ? "block" : "none";
+    document.getElementById("cardSection").style.display = method === "card" ? "block" : "none";
+}
+
+// Calculate cash change
+document.getElementById("cashGiven").addEventListener("input", function () {
+    const total = parseFloat(document.getElementById("pm-total").textContent);
+    const given = parseFloat(this.value) || 0;
+    const change = given - total;
+    document.getElementById("changeAmount").textContent = change >= 0 ? change.toFixed(2) : "0.00";
+});
+
+// Complete Payment & Submit Form
+function completePayment() {
+    const method = document.getElementById("pm-method").value;
+
+    // Validate payment info
+    if (method === "cash") {
+        const given = parseFloat(document.getElementById("cashGiven").value);
+        const total = parseFloat(document.getElementById("pm-total").textContent);
+        if (!given || given < total) return alert("Cash given is not enough.");
+    }
+    if (method === "gcash" && !document.getElementById("gcashNumber").value.trim()) {
+        return alert("Please enter GCash number.");
+    }
+    if (method === "card" && !document.getElementById("cardNumber").value.trim()) {
+        return alert("Please enter card number.");
+    }
+
+    // Prepare order items
+    const items = [];
+    summaryList.querySelectorAll("li").forEach(li => {
+        items.push({
+            product_id: li.dataset.id,
+            name: li.dataset.name,
+            price: parseFloat(li.dataset.price),
+            qty: parseInt(li.dataset.qty)
+        });
+    });
+
+    if (items.length === 0) return alert("Please add at least one product.");
+    itemsInput.value = JSON.stringify(items);
+
+    // Set product field for single product order
+    const productField = document.querySelector("select[name='order[product]']");
+    if (items.length === 1 && productField) {
+        productField.value = items[0].product_id;
+    }
+
+    // Append payment method and submit
+    const form = document.getElementById("orderForm");
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "paymentMethod";
+    hidden.value = method;
+    form.appendChild(hidden);
+
+    form.submit();
+}
+
+});
+</script>
 {% endblock %}

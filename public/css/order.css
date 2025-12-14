@@ -40,6 +40,7 @@
         padding: 12px;
         text-align: left;
         border-bottom: 1px solid #444;
+        vertical-align: middle; /* ensures content is vertically centered */
     }
 
     th {
@@ -58,6 +59,8 @@
         font-size: 12px;
         font-weight: bold;
         text-transform: uppercase;
+        text-align: center;
+        min-width: 70px; 
     }
 
     .status.pending { background-color: #ffc107; color: #212529; }
@@ -129,3 +132,44 @@
         display: none;
         z-index: 2000;
     }
+
+    /* Actions column */
+td.actions {
+    display: flex;
+    gap: 10px; /* spacing between buttons */
+    justify-content: center; /* center align in cell */
+    align-items: center;
+}
+
+/* Eye button */
+.btn-eye {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 6x 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-eye:hover {
+    background-color: #0056b3;
+}
+
+/* Receipt button */
+.btn-receipt {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-receipt:hover {
+    background-color: #1e7e34;
+}
+

@@ -1,12 +1,17 @@
-/* ============================================
-   E-COMMERCE ADMIN STYLE - PRODUCT FORM
-   ============================================ */
+
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #f5f7fa;
+    
+  
     margin: 0;
     padding: 0;
+}
+
+.h2{
+    color:#ccc;
+    text-align: center;
+    font-size:0.8rem
 }
 
 /* Container */
@@ -14,31 +19,67 @@ body {
     max-width: 1000px;
     margin: 3em auto;
     padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 10vh;
+    
 }
 
 /* Card */
 .card {
-    background: #ffffff;
+    background:  #1c1c1c;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     padding: 40px 35px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+     width: 100%;
+    box-sizing: border-box;
+    min-height: 10vh;
+
+    
 }
 
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      background:  #1c1c1c;
+     
 }
 
 /* Header */
-.card h1 {
+/*.card h1 {
     font-size: 2rem;
     font-weight: 700;
     color: #2d3436;
-    margin-bottom: 30px;
     border-bottom: 3px solid #ff6f91;
-    display: inline-block;
+    display: block;
     padding-bottom: 5px;
+    margin-left: 500px;
+    margin-bottom: 500px;
+    text-align: center;
+    width: 100%;
+
+
+}*/
+.card h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #8f9293;
+    border-bottom: 3px solid #ff6f91;
+    padding-bottom: 5px;
+    text-align: center;
+    
+    width: 100%;
+    display:block;
+    margin-bottom: 40px;
+}
+
+.card h2{
+    font-weight: 700;
+    color:#ccc;
+    text-align: center;
+    font-size:1rem;
 }
 
 /* Form Wrapper - Grid Layout */
@@ -48,17 +89,54 @@ body {
     gap: 25px 40px;
 }
 
+
+
+.form-wrapper > div {
+    width: 100%;          
+    box-sizing: border-box; 
+}
+
+.fs-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-wrapper .form-field:hover {
+    background:  #2c2c2c;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(255, 111, 145, 0.2);
+
+}
+
+.form_widget:hover {
+    background:  #2c2c2c;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(255, 111, 145, 0.2);
+
+}
+
+
+.form-wrapper .form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+
 /* Mobile layout */
 @media (max-width: 768px) {
     .form-wrapper {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr ;
     }
 }
 
 /* Labels */
 label, .fs-label {
     font-weight: 600;
-    color: #555;
+    color: #ccc;
     margin-bottom: 6px;
     display: block;
     font-size: 0.95rem;
@@ -95,12 +173,13 @@ textarea {
 
 /* File Upload with Preview */
 input[type="file"] {
-    padding: 12px;
+    padding: 30px;
     border: 2px dashed #ccc;
     border-radius: 8px;
     background-color: #fafafa;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 1.1rem;
 }
 
 input[type="file"]:hover {
@@ -109,7 +188,7 @@ input[type="file"]:hover {
 
 .image-preview {
     margin-top: 10px;
-    max-width: 200px;
+    max-width: 1000px;
     max-height: 200px;
     border-radius: 10px;
     object-fit: cover;
@@ -120,7 +199,7 @@ input[type="file"]:hover {
 .submit-btn {
     grid-column: span 2;
     margin-top: 25px;
-    background: linear-gradient(90deg, #ff6f91, #ff9671);
+    background: linear-gradient(90deg, #2b2a2b, #eae8e8);
     color: white;
     font-weight: 600;
     padding: 16px 0;
@@ -167,3 +246,16 @@ input[type="file"]:hover {
     border-radius: 8px;
     margin-bottom: 15px;
 }
+
+.fs-input:hover {
+    background-color: rgba(224, 224, 224, 0.9);
+    cursor: pointer;
+}
+
+.fs-input option[disabled] {
+    color: #9e9e9e; /* gray placeholder */
+}
+
+
+
+

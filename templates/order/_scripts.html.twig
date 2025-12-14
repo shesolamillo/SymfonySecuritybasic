@@ -113,4 +113,28 @@ window.addEventListener('click', e => {
 });
 
 document.addEventListener('DOMContentLoaded', updateStatistics);
+
+
 </script>
+
+
+<!-- Cash Section (existing) -->
+<div id="cashSection" style="display:none; margin-top:15px;">
+    <label>Cash Given</label>
+    <input type="number" id="cashGiven" class="form-control">
+    <p style="margin-top:10px;">
+        Change: ₱ <strong id="changeAmount">0</strong>
+    </p>
+</div>
+
+<!-- GCash Section -->
+<div id="gcashSection" style="display:none; margin-top:15px;">
+    <label>GCash Reference No.</label>
+    <input type="text" id="gcashRef" class="form-control">
+</div>
+
+<!-- Card Section -->
+<div id="cardSection" style="display:none; margin-top:15px;">
+    <label>Card Number</label>
+    <input type="text" id="cardNumber" class="form-control">
+</div>

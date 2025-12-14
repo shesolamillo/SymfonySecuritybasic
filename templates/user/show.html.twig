@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/user_show.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="profile-page">
+    <div class="profile-card">
+        <!-- Header -->
+        <div class="profile-header">
+
+            <div class="profile-photo">
+            {% if user.profilePicture %}
+                <img src="{{ asset('uploads/profile/' ~ user.profilePicture) }}" alt="Profile Picture">
+            {% else %}
+                <img src="{{ asset('images/usericon.png') }}" alt="Default Picture">
+            {% endif %}
+        </div>
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.email }}</p>
+
+            {% if 'ROLE_ADMIN' in user.roles %}
+                <span class="role-badge admin">Admin</span>
+            {% elseif 'ROLE_STAFF' in user.roles %}
+                <span class="role-badge staff">Staff</span>
+            {% else %}
+                <span class="role-badge user">User</span>
+            {% endif %}
+        </div>
+
+
+       
+        <!-- Actions -->
+        <div class="profile-actions">
+            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn edit-btn">✏️ Edit Profile</a>
+            {{ include('user/_delete_form.html.twig') }}
+            <a href="{{ path('app_user_index') }}" class="btn back-btn">⬅️ Back to List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

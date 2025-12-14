@@ -6,12 +6,14 @@
     <title>{% block title %}Dashboard{% endblock %}</title>
 
     {% block stylesheets %}
-       <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+       <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+      
       
     {% endblock %}
 
 </head>
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
 
@@ -29,19 +31,24 @@
              <li><a href="{{ path('app_product_index') }}"><span>👕</span> <span class="label">Product</span></a></li>
             <li><a href="{{ path('app_category_index') }}"><span>📦</span> <span class="label">Category</span></a></li>
             <li><a href="{{ path('app_order_index') }}"><span>📦</span> <span class="label">Orders</span></a></li>
-            <li><a href="{{ path('app_customer_index') }}"><span>🧑‍🤝‍🧑</span> <span class="label">Customers</span></a></li>
-                <li><a href="#" onclick="showSection('loyalty')"><span>💎</span> <span class="label">Loyalty</span></a></li>
+            {#<li><a href="{{ path('app_customer_index') }}"><span>🧑‍🤝‍🧑</span> <span class="label">Customers</span></a></li> #}
+             <li><a href="{{ path('app_loyalty_overview') }}"><span>💎</span> <span class="label">Loyalty</span></a></li>
+             <li><a href= "{{ path('app_stock_index') }}"><span>📊</span> <span class="label">Stock</span></a></li>
+            <li><a href="{{ path('app_activity_log_index') }}"><span>📊</span> <span class class="label">activity</span></a></li>
+
                 <li><a href="#" onclick="showSection('reports')"><span>📊</span> <span class="label">Reports</span></a></li>
                 <li><a href="#" onclick="showSection('settings')"><span>⚙️</span> <span class="label">Settings</span></a></li>
+                <li><a href="#" onclick=
 
 
         </ul>
-
+        {#
         <div class="logout">
             <form action="{{ path('app_logout') }}" method="post">
                 <button type="submit">🚪 Logout</button>
             </form>
-        </div>
+        </div> 
+        #}
 
 
 
@@ -49,19 +56,56 @@
 
 
     </div>
+
 
     <!-- Topbar -->
     <div class="topbar">
         <div class="search-box">
-            <input type="text" placeholder="Search...">
+    <input type="text" id="globalSearch" placeholder="Search...">
+    <div class="search-list" id="searchList"></div>
+</div>
+        
+        <div class="profile">
+            {% if app.user %}
+                <div class="profile-trigger" id="profileTrigger">
+                    <img 
+                        src="{{ app.user.profilePicture ? asset('uploads/profile/' ~ app.user.profilePicture) : asset('images/usericon.png') }}" 
+                        alt="Profile Icon" 
+                        class="profile-icon"
+                    >
+                    <span>{{ app.user.username }}</span>
+                </div>
+
+                <div class="dropdown-menu" id="profileDropdown">
+                    <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Profile</a>
+                    <a href="{{ path('app_user_edit', {'id': app.user.id}) }}">Settings</a>
+                    <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% else %}
+                <a href="{{ path('app_login') }}">
+                    <img src="{{ asset('images/usericon.png') }}" alt="Profile Icon" class="profile-icon">
+                   
+                </a>
+            {% endif %}
         </div>
-        <div class="profile"></div>
+
+
     </div>
+
+
+
 
     <!-- Main Content -->
     <div class="main">
         {% block body %}{% endblock %}
     </div>
+
+
+    <div class="access-denied">
+        <h2>Access Denied</h2>
+        <p>You must be logged in to view this page.</p>
+    </div>
+
 
     <script>
         document.addEventListener('turbo:load', () => {
@@ -90,6 +134,108 @@
             document.getElementById('sidebar').classList.toggle('collapsed');
         }
 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const trigger = document.getElementById('profileTrigger');
+            const dropdown = document.getElementById('profileDropdown');
+
+            if (trigger && dropdown) {
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent the document click from closing
+                    dropdown.classList.toggle('show');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+
+
+
+
+
+
+
+        // Global Search Data
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const search = document.getElementById("globalSearch");
+            const list = document.getElementById("searchList");
+
+            search.addEventListener("input", function () {
+                const text = this.value.toLowerCase().trim();
+                list.innerHTML = "";
+
+                if (!text) {
+                    list.style.display = "none";
+                    return;
+                }
+
+                const matches = SEARCH_DATA.filter(item =>
+                    item.name.toLowerCase().includes(text)
+                );
+
+                if (matches.length === 0) {
+                    list.innerHTML = "<div>No Results</div>";
+                    list.style.display = "block";
+                    return;
+                }
+
+                matches.forEach(item => {
+                    const div = document.createElement("div");
+                    div.textContent = item.name;
+
+                    div.addEventListener("click", () => {
+                        list.style.display = "none";
+
+                        if (item.section) {
+                            showSection(item.section);
+                        } else {
+                            window.location.href = item.url;
+                        }
+                    });
+
+                    list.appendChild(div);
+                });
+
+                list.style.display = "block";
+            });
+
+            document.addEventListener("click", e => {
+                if (!search.contains(e.target)) list.style.display = "none";
+            });
+
+        });
+
+
+
+const SEARCH_DATA = [
+    { name: "Dashboard", url: "{{ path('app_dashboard') }}" },
+
+    { name: "Products", url: "{{ path('app_product_index') }}" },
+    { name: "Add Product", url: "{{ path('app_product_new') }}" },
+
+    { name: "Categories", url: "{{ path('app_category_index') }}" },
+    { name: "Add Category", url: "{{ path('app_category_new') }}" },
+
+    { name: "Orders", url: "{{ path('app_order_index') }}" },
+    { name: "Pending Orders", url: "{{ path('app_order_index') }}?filter=pending" },
+    { name: "Completed Orders", url: "{{ path('app_order_index') }}?filter=completed" },
+
+    { name: "Customers", url: "{{ path('app_customer_index') }}" },
+    { name: "Add Customer", url: "{{ path('app_customer_new') }}" },
+
+    { name: "Loyalty", url: "#", section: "loyalty" },
+    { name: "Reports", url: "#", section: "reports" },
+    { name: "Settings", url: "#", section: "settings" }
+];
+
+
+
+
+      
 
     </script>
 

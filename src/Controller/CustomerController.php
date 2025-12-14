@@ -10,7 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_ADMIN')]
 #[Route('/customer')]
 final class CustomerController extends AbstractController
 {
@@ -79,3 +81,5 @@ final class CustomerController extends AbstractController
         return $this->redirectToRoute('app_customer_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+
+

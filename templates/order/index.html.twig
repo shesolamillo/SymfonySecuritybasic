@@ -28,29 +28,102 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Customer Name</th>
                 <th>Order Date</th>
+                <th>Payment</th>
+                <th>Payment-Status</th>
+                <th>Form</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            {% for order in orders %}
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.orderDate ? order.orderDate|date('Y-m-d') : '' }}</td>
-                <td><span class="status {{ order.status|lower }}">{{ order.status|capitalize }}</span></td>
-                <td class="actions">
-                    <a href="{{ path('app_order_show', {'id': order.id}) }}" class="show">Show</a>
-                    <a href="{{ path('app_order_edit', {'id': order.id}) }}" class="edit">Edit</a>
-                    <a href="#" class="delete" onclick="confirmDelete({{ order.id }})">Delete</a>
-                </td>
-            </tr>
+       <tbody>
+{% for order in orders %}
+    <tr>
+        <!-- Order ID -->
+        <td>#ORD{{ order.id }}</td>
+
+        <!-- Customer Name -->
+        <td>
+            {{ order.user.username }}
+        </td>
+
+        <!-- Order Date -->
+        <td>
+            {{ order.orderDate ? order.orderDate|date('M d, Y') : '' }}
+        </td>
+
+        <!-- Products & Total -->
+        <td>
+            {% if order.items is defined and order.items %}
+                {% set total = 0 %}
+                <ul style="list-style:none; padding:0; margin:0;">
+                {% for item in order.items|json_decode %}
+                    <li>
+                        ID: {{ item.product_id }} — {{ item.name }} x{{ item.qty }} — ₱{{ (item.price * item.qty)|number_format(2) }}
+                    </li>
+                    {% set total = total + (item.price * item.qty) %}
+                {% endfor %}
+                </ul>
+                <strong>Total: ₱{{ total|number_format(2) }}</strong>
             {% else %}
-            <tr>
-                <td colspan="4">No orders found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+                N/A
+            {% endif %}
+        </td>
+
+        <!-- Payment Status -->
+        <td class="payment-status">
+            {% if order.paymentStatus == 'Paid' %}
+                <span class="badge paid">Paid</span>
+            {% elseif order.paymentStatus == 'UnPaid' %}
+                <span class="badge unpaid">UnPaid</span>
+            {% elseif order.paymentStatus == 'Refunded' %}
+                <span class="badge refunded">Refunded</span>
+            {% elseif order.paymentStatus == 'Pending' %}
+                <span class="badge pending">Pending</span>
+            {% else %}
+                <span class="badge unknown">Unknown</span>
+            {% endif %}
+        </td>
+
+        <!-- Status -->
+        <td class="status">
+            {% set s = order.status|lower %}
+            <span class="badge 
+                {% if s == 'completed' %}completed
+                {% elseif s == 'pending' %}pending
+                {% elseif s == 'processing' %}processing
+                {% elseif s == 'cancelled' %}cancelled
+                {% endif %}">
+                {{ order.status }}
+            </span>
+        </td>
+
+        <!-- Update Form (if staff/admin) -->
+        <td>
+            {% if is_granted('ROLE_STAFF') or is_granted('ROLE_ADMIN') %}
+                <form action="{{ path('order_update_status', {'id': order.id}) }}" method="POST">
+                    <select name="status">
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            {% endif %}
+        </td>
+
+        <!-- Actions -->
+        <td class="actions">
+            <a href="{{ path('app_order_show', {'id': order.id}) }}" class="btn-eye">👁</a>
+            <a href="{{ path('app_order_receipt', {'id': order.id}) }}" class="btn-receipt">🧾</a>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>
+
+
     </table>
 
     <a href="{{ path('app_order_new') }}" class="create-btn">Create New Order</a>
@@ -118,6 +191,7 @@
             row.style.display = (!status || rowStatus===status) ? '' : 'none';
         });
     });
+    
 </script>
 {% endblock %}
 

@@ -1,0 +1,100 @@
+/* MAIN CONTAINER */
+.auth-container {
+    width: 900px;
+    height: 500px;
+    margin: 40px auto;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+/* FORM PANEL */
+.form-panel {
+    width: 60%;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+}
+
+/* INPUT FIELDS */
+.form-panel input[type="text"],
+.form-panel input[type="password"],
+.form-panel input[type="email"] {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #cfcfcf;
+    padding: 10px 0;
+    margin-bottom: 25px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* BUTTON */
+.btn-main,
+.btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #d4b07a;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* SIDE PANEL */
+.side-panel {
+    width: 40%;
+    background: #606060;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+}
+
+/* SIDE BUTTON */
+.side-btn {
+    padding: 8px 28px;
+    border: 2px solid white;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: .3s;
+}
+
+.side-btn:hover {
+    background: white;
+    color: #606060;
+}
+
+/* SLIDE + FADE KEYFRAMES */
+@keyframes formSlideFade {
+    0% { transform: translateX(0); opacity: 1; }
+    50% { transform: translateX(150px); opacity: 0.3; }
+    100% { transform: translateX(300px); opacity: 1; }
+}
+
+@keyframes sideSlideFade {
+    0% { transform: translateX(0); opacity: 1; }
+    50% { transform: translateX(-300px); opacity: 0.3; }
+    100% { transform: translateX(-600px); opacity: 1; }
+}
+
+/* LOGIN MODE */
+.auth-container.login-mode .form-panel { transform: translateX(0); opacity: 1; }
+.auth-container.login-mode .side-panel { transform: translateX(0); opacity: 1; }
+
+/* REGISTER MODE */
+.auth-container.register-mode .form-panel { animation: formSlideFade 2s forwards; opacity: 1; }
+.auth-container.register-mode .side-panel { animation: sideSlideFade 2s forwards; background: #505050;  opacity: 1; }

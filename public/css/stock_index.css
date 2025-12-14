@@ -1,0 +1,51 @@
+ .stock-wrapper {
+        padding: 25px;
+        background: #1c1c1c;
+        color: #e0e0e0;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #232323;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 14px;
+        border-bottom: 1px solid #333;
+    }
+
+    th {
+        text-transform: uppercase;
+        font-size: 13px;
+        background: #2e2e2e;
+    }
+
+    tr:hover {
+        background: #303030;
+    }
+
+    .btn-add {
+        display: inline-block;
+        margin-bottom: 15px;
+        background: #2196f3;
+        padding: 10px 15px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+    }
+
+    .action-links a {
+        margin-right: 12px;
+        color: #90caf9;
+        text-decoration: none;
+    }

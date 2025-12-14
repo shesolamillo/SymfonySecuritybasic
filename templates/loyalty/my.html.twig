@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Loyalty Points{% endblock %}
+
+{% block body %}
+
+<h2 class="mb-4">My Loyalty Points</h2>
+
+<div class="alert alert-success">
+    <strong>Total Points: {{ total }}</strong>
+</div>
+
+<h4>Points History</h4>
+
+<table class="table table-bordered table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Reward Type</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in loyalties %}
+        <tr>
+            <td>{{ row.createdAt|date('Y-m-d H:i') }}</td>
+            <td>{{ row.rewardType.name }}</td>
+            <td>{{ row.points }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3" class="text-center">No loyalty history yet.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

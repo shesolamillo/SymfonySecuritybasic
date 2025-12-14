@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -33,6 +34,20 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
+
+    /**
+     * @var Collection<int, Stock>
+     */
+    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'product')]
+    private Collection $quantity;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?User $user = null;
+
+    public function __construct()
+    {
+        $this->quantity = new ArrayCollection();
+    }
 
 
    
@@ -108,6 +123,50 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Stock>
+     */
+    public function getQuantity(): Collection
+    {
+        return $this->quantity;
+    }
+
+    public function addQuantity(Stock $quantity): static
+    {
+        if (!$this->quantity->contains($quantity)) {
+            $this->quantity->add($quantity);
+            $quantity->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantity(Stock $quantity): static
+    {
+        if ($this->quantity->removeElement($quantity)) {
+            // set the owning side to null (unless already changed)
+            if ($quantity->getProduct() === $this) {
+                $quantity->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    
 
     
 

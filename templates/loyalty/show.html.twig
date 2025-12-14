@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Loyalty{% endblock %}
+
+{% block body %}
+<h1>Loyalty Details</h1>
+
+<table class="table">
+    <tbody>
+        <tr><th>Id</th><td>{{ loyalty.id }}</td></tr>
+        <tr><th>Points</th><td>{{ loyalty.points }}</td></tr>
+        <tr><th>RewardType</th><td>{{ loyalty.rewardType }}</td></tr>
+        <tr><th>CreatedAt</th><td>{{ loyalty.createdAt ? loyalty.createdAt|date('Y-m-d H:i:s') : '' }}</td></tr>
+        <tr><th>UpdatedAt</th><td>{{ loyalty.updatedAt ? loyalty.updatedAt|date('Y-m-d H:i:s') : '' }}</td></tr>
+    </tbody>
+</table>
+
+<a class="btn btn-secondary" href="{{ path('app_loyalty_index') }}">Back</a>
+<a class="btn btn-warning" href="{{ path('app_loyalty_edit', {'id': loyalty.id}) }}">Edit</a>
+
+{{ include('loyalty/_delete_form.html.twig') }}
+{% endblock %}

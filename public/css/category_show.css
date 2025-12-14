@@ -1,6 +1,6 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: #f8f9fa;
+
     color: #2c3e50;
 }
 
@@ -42,7 +42,7 @@ body {
 /* Category Info Card */
 .category-card {
     width: 85%;
-    background: #fff;
+    background: #898888;
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     margin: 20px auto;
@@ -129,23 +129,23 @@ body {
 .products-table {
     width: 100%;
     border-collapse: collapse;
-    background: #ffffff;
+    background: #505050;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 20px rgba(12, 12, 12, 0.06);
 }
 
 .products-table th, 
 .products-table td {
     padding: 14px 20px;
     text-align: left;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 1px solid #b15621;
     font-size: 1rem;
 }
 
 .products-table th {
-    background: #f9fafc;
-    color: #555;
+    background: #353636;
+    color: #e7e1e1;
     font-weight: 600;
 }
 

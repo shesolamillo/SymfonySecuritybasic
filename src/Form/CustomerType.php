@@ -22,10 +22,23 @@ class CustomerType extends AbstractType
         ;
     }
 
+    public function getName(): string
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Customer::class,
         ]);
     }
+
+    
+
+
+
+
+    
 }
